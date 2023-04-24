@@ -68,11 +68,16 @@ class _LoginPageState extends State<LoginPage> {
                     width: size.width*0.9,
                     child: Directionality(
                       textDirection: TextDirection.rtl,
-                      child: TextField(
-                        decoration: InputDecoration(
-                          icon: Icon(Icons.email , color: Colors.green,),
-                          border: InputBorder.none,
-                          hintText: 'آدرس ایمیل',
+                      child: Padding(
+                        padding:  EdgeInsets.only(right: size.width*0.02),
+                        child: Center(
+                          child: TextField(
+                            decoration: InputDecoration(
+                              icon: Icon(Icons.email , color: Colors.green,),
+                              border: InputBorder.none,
+                              hintText: 'آدرس ایمیل',
+                            ),
+                          ),
                         ),
                       ),
                     ),
@@ -88,11 +93,16 @@ class _LoginPageState extends State<LoginPage> {
                     width: size.width*0.9,
                     child: Directionality(
                       textDirection: TextDirection.rtl,
-                      child: TextField(
-                        decoration: InputDecoration(
-                          icon: Icon(Icons.lock , color: Colors.green,),
-                          border: InputBorder.none,
-                          hintText: 'رمز عبور',
+                      child: Padding(
+                        padding:  EdgeInsets.only(right: size.width*0.02),
+                        child: Center(
+                          child: TextField(
+                            decoration: InputDecoration(
+                              icon: Icon(Icons.lock , color: Colors.green,),
+                              border: InputBorder.none,
+                              hintText: 'رمز عبور',
+                            ),
+                          ),
                         ),
                       ),
                     ),

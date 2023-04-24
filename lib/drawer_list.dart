@@ -8,7 +8,9 @@ class Drawer_list extends StatefulWidget {
   final IconData icon;
   final String text;
   final bool subset ;
-  const Drawer_list({ required this.icon, required this.text , required this.subset});
+  final Widget page;
+
+  const Drawer_list({ required this.icon, required this.text , required this.subset, required this.page});
 
   @override
   State<Drawer_list> createState() => _Drawer_listState();
@@ -37,7 +39,7 @@ class _Drawer_listState extends State<Drawer_list> {
           onTap: (){
       setState(() {
         Navigator.push(
-          context, MaterialPageRoute(builder: (context) => LoginPage()
+          context, MaterialPageRoute(builder: (context) => widget.page
         ),
         );
       },
