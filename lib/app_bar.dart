@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:nahal_it/Screens/cart.dart';
+import 'package:nahal_it/Screens/favourite_screen.dart';
 import 'package:nahal_it/main_drawer.dart';
 
 class MyAppBar extends StatelessWidget {
@@ -29,7 +29,7 @@ class MyAppBar extends StatelessWidget {
                             iconSize: size.width*0.09, onPressed: () {
                                 Navigator.push(
                                   context,
-                                  MaterialPageRoute(builder: (context) =>  Card_Screen()),
+                                  MaterialPageRoute(builder: (context) =>  Favourite_Screen()),
                                 );
 
                               },)
@@ -62,10 +62,11 @@ class MyAppBar extends StatelessWidget {
                     ),
                     Container(
                     width: size.width*0.20,
-                     child: Image(image: AssetImage("lib/images/Logo.png"), ))
-
-
-
+                     child: Image(
+                       image:
+                       AssetImage("lib/images/Logo.png"),
+                     ),
+                    ),
                   ],
               ),
             ),

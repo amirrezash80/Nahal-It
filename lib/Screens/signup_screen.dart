@@ -12,6 +12,7 @@ class SignUp_Page extends StatelessWidget {
           child: Column(
             children: [
               Container(
+                color: Colors.white,
                 child:
                 Image(
                   image: AssetImage("lib/images/Logo.png"),

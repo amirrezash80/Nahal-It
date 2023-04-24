@@ -50,6 +50,7 @@ class _LogoPageState extends State<LogoPage> {
               // height:size.height*0.4,
               width: size.width*0.7,
               decoration: BoxDecoration(
+                color: Colors.white,
                 image: DecorationImage(
                     fit: BoxFit.contain,
                     image: AssetImage(

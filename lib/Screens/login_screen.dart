@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nahal_it/Screens/cart.dart';
+import 'package:nahal_it/Screens/favourite_screen.dart';
 import 'package:nahal_it/Screens/signup_screen.dart';
 
 class LoginPage extends StatefulWidget {
@@ -22,6 +22,7 @@ class _LoginPageState extends State<LoginPage> {
         child: Column(
           children: [
             Container(
+              color: Colors.white,
               child:
               Image(
                 image: AssetImage("lib/images/Logo.png"),

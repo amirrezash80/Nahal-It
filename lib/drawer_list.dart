@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:nahal_it/Screens/Contact_us.dart';
+import 'package:nahal_it/Screens/about_us.dart';
 import 'package:nahal_it/Screens/login_screen.dart';
 
 import 'Screens/profile_screen.dart';
@@ -101,13 +103,20 @@ final IconData icon;
             ListTile(
               title: Text("تماس با ما"),
               onTap: (){
+                Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => Contact_us()
+                ),
+                );
                 //action on press
               },
             ),
             ListTile(
               title: Text("درباره ما"),
               onTap: (){
-                //action on press
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => About_Us()
+                ),
+                ); //action on press
               },
             ),
             ListTile(

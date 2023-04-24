@@ -115,12 +115,17 @@ class Estekhdam extends StatelessWidget {
                                     RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(12.0),
                                     )
-                                )
+                                ),
                             ),
                             onPressed: null, child:
-                        Text("ارسال فرم",style: TextStyle(
+                        Text(
+                          "ارسال فرم",
+                          style:
+                          TextStyle(
                             color: Colors.white
-                        ),)),
+                        ),
+                        ),
+                        ),
                       ],
                     ),
                   ),

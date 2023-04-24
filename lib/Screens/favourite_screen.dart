@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-class Card_Screen extends StatelessWidget {
+class Favourite_Screen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Text"),
+        title: Text("علاقه مندی ها"),
         backgroundColor: Colors.cyan,
       ),
     );

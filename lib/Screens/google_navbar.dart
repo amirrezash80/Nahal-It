@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:nahal_it/Screens/cart.dart';
+import 'package:nahal_it/Screens/Home_Screen.dart';
+import 'package:nahal_it/Screens/cart_screen.dart';
+import 'package:nahal_it/Screens/favourite_screen.dart';
+import 'package:nahal_it/Screens/categories_screen.dart';
 import 'package:nahal_it/Screens/profile_screen.dart';
 
 class GoogleNavBar extends StatefulWidget {
@@ -56,6 +59,15 @@ class _GoogleNavBarState extends State<GoogleNavBar> {
                 GButton(
                   icon: Icons.shopping_cart_outlined ,
                   text: 'سبد خرید',
+                  onPressed: (){
+                    setState(() {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) =>  Cart_Screen()),
+                      );
+                    });
+                  },
+
                 ),
                 GButton(
                   icon: Icons.receipt_long_rounded,
@@ -64,15 +76,23 @@ class _GoogleNavBarState extends State<GoogleNavBar> {
                     setState(() {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) =>  Card_Screen()),
+                        MaterialPageRoute(builder: (context) =>  Cart_Screen()),
                       );
                     });
                   },
                 ),
-
                 GButton(
                   icon: Icons.menu,
                   text: 'دسته‌بندی‌ها‌',
+                  onPressed: (){
+                    setState(() {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) =>  Categories_Screen()),
+                      );
+                    });
+                  },
+
                 ),
                 GButton(
                   icon: Icons.person_2_outlined,
