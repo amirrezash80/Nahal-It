@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:nahal_it/Screens/Home_Screen.dart';
+import 'package:nahal_it/Screens/login_screen.dart';
 
 class LogoPage extends StatefulWidget {
 
@@ -16,7 +17,7 @@ class _LogoPageState extends State<LogoPage> {
     Future.delayed(Duration(seconds: 1)).then((_) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => Home_Screen(title: 'Nahal-it'),
+        MaterialPageRoute(builder: (context) => LoginPage(),
         ),
       );
     });
@@ -42,7 +43,7 @@ class _LogoPageState extends State<LogoPage> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => Home_Screen(title: 'Nahal-it'),
+                    builder: (context) => Home_Screen(title: "nahal_it", username: "amirreza"),
               ),
               );
             },

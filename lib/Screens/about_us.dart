@@ -6,8 +6,9 @@ class About_Us extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text("درباره ‌ی ما"),
-        backgroundColor: Colors.cyan,
+        backgroundColor: Colors.green,
       ),
     );
   }

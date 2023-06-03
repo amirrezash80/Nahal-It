@@ -1,21 +1,28 @@
 import 'package:flutter/material.dart';
 
-class SignUpCards extends StatelessWidget {
+class SignUpCards extends StatefulWidget {
 
   final String text;
   final IconData icon;
+  final ValueChanged<String> onChanged;
 
-  const SignUpCards({ required this.text, required this.icon});
+  const SignUpCards({ required this.text, required this.icon, required this.onChanged});
+
+  @override
+  State<SignUpCards> createState() => _SignUpCardsState();
+}
+
+class _SignUpCardsState extends State<SignUpCards> {
+  late String value;
 
   @override
   Widget build(BuildContext context) {
     var size  = MediaQuery.of(context).size;
-
     return Column(
       children: [
         Container(
             width: size.width*0.9,
-            child: Text(text , textAlign: TextAlign.end,),),
+            child: Text(widget.text , textAlign: TextAlign.end,),),
         SizedBox(height: size.height*0.015,),
         Container(
         color: Colors.white,
@@ -27,10 +34,15 @@ class SignUpCards extends StatelessWidget {
           child: Padding(
             padding:  EdgeInsets.only(right: size.width*0.02),
             child: TextField(
-            decoration: InputDecoration(
-            icon: Icon(icon, color: Colors.green,),
+              onChanged: (newText) {
+                value = newText;
+                widget.onChanged(value);
+                },
+
+              decoration: InputDecoration(
+            icon: Icon(widget.icon, color: Colors.green,),
             border: InputBorder.none,
-            hintText: text,
+            hintText: widget.text,
             ),
             ),
           ),

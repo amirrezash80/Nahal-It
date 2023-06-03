@@ -6,8 +6,10 @@ class Favourite_Screen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
+
         title: Text("علاقه مندی ها"),
-        backgroundColor: Colors.cyan,
+        backgroundColor: Colors.green,
       ),
     );
   }

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:nahal_it/Screens/Home_Screen.dart';
+import 'package:nahal_it/Screens/blog_screen.dart';
 import 'package:nahal_it/Screens/cart_screen.dart';
-import 'package:nahal_it/Screens/favourite_screen.dart';
 import 'package:nahal_it/Screens/categories_screen.dart';
 import 'package:nahal_it/Screens/profile_screen.dart';
+import 'package:nahal_it/Screens/signup_screen.dart';
+
+import 'magazine_screen.dart';
 
 class GoogleNavBar extends StatefulWidget {
 
@@ -13,13 +15,13 @@ class GoogleNavBar extends StatefulWidget {
 }
 
 class _GoogleNavBarState extends State<GoogleNavBar> {
-  int _selectedIndex = 0;
 
+  int? _selectedIndex;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    _selectedIndex = 2; // set the first tab as selected
   }
 
   @override
@@ -27,8 +29,7 @@ class _GoogleNavBarState extends State<GoogleNavBar> {
     var size = MediaQuery.of(context).size;
     return Container(
       decoration: BoxDecoration(
-       color: Colors.white,
-      //  color: Color(0xffe7e3dc),
+        color: Colors.white,
         boxShadow: [
           BoxShadow(
             blurRadius: 20,
@@ -39,76 +40,76 @@ class _GoogleNavBarState extends State<GoogleNavBar> {
       child: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
-          child:GNav(
-              rippleColor: Colors.green.shade800, // tab button ripple color when pressed
-              hoverColor: Colors.green.shade700, // tab button hover color
-              haptic: true, // haptic feedback
-              tabBorderRadius: 15,
-              tabActiveBorder: Border.all(color: Colors.green, width: 1), // tab button border
-              //  tabBorder: Border.all(color: Colors.grey, width: 1), // tab button border
-              // tabShadow: [BoxShadow(color: Colors.green.withOpacity(0.25), blurRadius: 7)], // tab button shadow
-              curve: Curves.easeOutExpo, // tab animation curves
-              duration: Duration(milliseconds: 300), // tab animation duration
-              gap: size.width*0.001, // the tab button gap between icon and text
-              color: Color(0xff2e5c66), // unselected icon color
-              activeColor: Colors.green.shade800, // selected icon and text color
-              iconSize: 24, // tab button icon size
-              tabBackgroundColor: Colors.greenAccent.withOpacity(0.2), // selected tab background color
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8), // navigation bar padding
-              tabs: [
-                GButton(
-                  icon: Icons.shopping_cart_outlined ,
-                  text: 'سبد خرید',
-                  onPressed: (){
-                    setState(() {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) =>  Cart_Screen()),
-                      );
-                    });
-                  },
-
-                ),
-                GButton(
-                  icon: Icons.receipt_long_rounded,
-                  text: 'مقالات',
-                  onPressed: (){
-                    setState(() {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) =>  Cart_Screen()),
-                      );
-                    });
-                  },
-                ),
-                GButton(
-                  icon: Icons.menu,
-                  text: 'دسته‌بندی‌ها‌',
-                  onPressed: (){
-                    setState(() {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) =>  Categories_Screen()),
-                      );
-                    });
-                  },
-
-                ),
-                GButton(
-                  icon: Icons.person_2_outlined,
-                  text: 'پروفایل',
-                  onPressed: (){
-                    setState(() {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) =>  Profile_screen()),
-                      );
-                    });
-                  },
-
-                )
-              ]
-          )
+          child: GNav(
+            rippleColor: Colors.green.shade800,
+            hoverColor: Colors.green.shade700,
+            haptic: true,
+            tabBorderRadius: 15,
+            tabActiveBorder: Border.all(color: Colors.green, width: 1),
+            curve: Curves.easeOutExpo,
+            duration: Duration(milliseconds: 300),
+            gap: size.width*0.001,
+            color: Color(0xff2e5c66),
+            activeColor: Colors.green.shade800,
+            iconSize: 24,
+            tabBackgroundColor: Colors.greenAccent.withOpacity(0.2),
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+            tabs: [
+              GButton(
+                icon: Icons.shopping_cart_outlined ,
+                text: 'سبد خرید',
+                onPressed: (){
+                  setState(() {
+                    _selectedIndex = 0;
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Cart_Screen()),
+                    );
+                  });
+                },
+              ),
+              GButton(
+                icon: Icons.receipt_long_rounded,
+                text: 'مقالات',
+                onPressed: (){
+                  setState(() {
+                    _selectedIndex = 1;
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => BlogScreen()),
+                    );
+                  });
+                },
+              ),
+              GButton(
+                icon: Icons.menu,
+                text: 'دسته‌بندی‌ها',
+                onPressed: (){
+                  setState(() {
+                    _selectedIndex = 2;
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Categories_Screen()),
+                    );
+                  });
+                },
+              ),
+              GButton(
+                icon: Icons.person_2_outlined,
+                text: 'پروفایل',
+                onPressed: (){
+                  setState(() {
+                    _selectedIndex = 3;
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Profile_screen()),
+                    );
+                  });
+                },
+              )
+            ],
+            // selectedIndex: _selectedIndex,
+          ),
         ),
       ),
     );

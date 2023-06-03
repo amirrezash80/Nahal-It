@@ -39,13 +39,13 @@ class _Drawer_listState extends State<Drawer_list> {
         ListTile(
           visualDensity: VisualDensity(vertical: 4),
           onTap: (){
-      setState(() {
-        Navigator.push(
-          context, MaterialPageRoute(builder: (context) => widget.page
-        ),
-        );
-      },
-      );
+            setState(() {
+              Navigator.push(
+                context, MaterialPageRoute(builder: (context) => widget.page
+              ),
+              );
+            },
+            );
           },
           leading: Icon(
             widget.icon,
@@ -61,7 +61,7 @@ class _Drawer_listState extends State<Drawer_list> {
                     fontSize: size.width*0.05
                 ),
               ),
-               if(widget.subset) Icon(Icons.arrow_forward_ios_outlined ,color: Colors.black54,) ,
+              if(widget.subset) Icon(Icons.arrow_forward_ios_outlined ,color: Colors.black54,) ,
             ],
           ),
 
@@ -76,57 +76,35 @@ class _Drawer_listState extends State<Drawer_list> {
 
   }
 }
-class ExpansionList extends StatelessWidget {
+class ExpansionList extends StatelessWidget
+{
+  final String title;
+  final IconData icon;
+  final List<Widget> children;
 
-final String title;
-final IconData icon;
-
-  const ExpansionList({ required this.title, required this.icon});
+  const ExpansionList({
+    required this.title,
+    required this.icon,
+    required this.children,
+  });
 
   @override
   Widget build(BuildContext context) {
-
     var size = MediaQuery.of(context).size;
     return Column(
       children: [
         ExpansionTile(
-          title: Text(title , style: TextStyle(
-              fontSize: size.width*0.05
-          ),),
-          leading: Icon(icon ,
+          title: Text(
+            title,
+            style: TextStyle(fontSize: size.width * 0.05),
+          ),
+          leading: Icon(
+            icon,
             color: Color(0xff2e5c66),
-            size: size.width*0.08,
-          ), //add icon
-          childrenPadding: EdgeInsets.only(right:size.width*0.03),
-         //children padding
-          children: [
-            ListTile(
-              title: Text("تماس با ما"),
-              onTap: (){
-                Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Contact_us()
-                ),
-                );
-                //action on press
-              },
-            ),
-            ListTile(
-              title: Text("درباره ما"),
-              onTap: (){
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => About_Us()
-                ),
-                ); //action on press
-              },
-            ),
-            ListTile(
-              title: Text("معرفی نهال"),
-              onTap: (){
-                //action on press
-              },
-            ),
-            //more child menu
-          ],
+            size: size.width * 0.08,
+          ),
+          childrenPadding: EdgeInsets.only(right: size.width * 0.03),
+          children: children,
         ),
         Container(
           color: Colors.green.shade100,
@@ -137,4 +115,3 @@ final IconData icon;
     );
   }
 }
-

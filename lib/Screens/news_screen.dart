@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
-import '../fetch_data.dart';
+import '../fetch_catagories.dart';
 
-class BlogScreen extends StatefulWidget {
-  const BlogScreen({Key? key}) : super(key: key);
+class NewsScreen extends StatefulWidget {
+  const NewsScreen({Key? key}) : super(key: key);
 
   @override
-  State<BlogScreen> createState() => _BlogScreenState();
+  State<NewsScreen> createState() => _NewsScreenState();
 }
 
-class _BlogScreenState extends State<BlogScreen> {
+class _NewsScreenState extends State<NewsScreen> {
   List<dynamic> posts = [];
   bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    fetchPosts().then((data) {
+    fetchCatagories().then((data) {
       setState(() {
         posts = data;
         isLoading = false; // Set isLoading to false once data is fetched
@@ -30,7 +30,7 @@ class _BlogScreenState extends State<BlogScreen> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.green,
-        title: Text('بلاگ'),
+        title: Text('اخبار'),
       ),
       body: Padding(
         padding: EdgeInsets.all(size.width * 0.015),

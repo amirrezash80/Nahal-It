@@ -17,6 +17,10 @@ dependencies:
   carousel_slider: ^4.2.1
   banner_carousel: ^1.2.1
   persian_fonts: ^1.0.5
+  supabase_flutter: ^1.8.1
+  wordpress_api: ^1.2.0
+  wp_json_api: ^3.3.2
+
 
 
 dev_dependencies:

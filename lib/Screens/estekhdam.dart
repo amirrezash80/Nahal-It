@@ -1,12 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:nahal_it/estekhdam_cards.dart';
 
-class Estekhdam extends StatelessWidget {
+class Estekhdam extends StatefulWidget {
+
+  @override
+  State<Estekhdam> createState() => _EstekhdamState();
+}
+
+class _EstekhdamState extends State<Estekhdam> {
+
+  String dropdownvalue = 'فرصت های شغلی';
+
+  // List of items in our dropdown menu
+  var items = [
+    'فرصت های شغلی',
+    'Item 1',
+    'Item 2',
+    'Item 3',
+    'Item 4',
+
+  ];
+
 
   @override
   Widget build(BuildContext context) {
+    var name , id , pass , email , phone_number;
+
+
     var size = MediaQuery.of(context).size;
 
+    var selectedValue;
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
@@ -33,8 +56,10 @@ class Estekhdam extends StatelessWidget {
               ),
               Stack(
                 children: [
-                  Container(color: Colors.green,
-                  height: size.height,),
+                  Container(
+                    color: Colors.green,
+                    height: size.height,
+                  ),
                   Container(
                     width: size.width,
                     decoration: BoxDecoration(
@@ -59,6 +84,7 @@ class Estekhdam extends StatelessWidget {
                             Text("جزییات"),
                           ],
                         ),
+                        SizedBox(height: size.height*0.005,),
                         Container(
                           color: Colors.grey,
                           height: 1,
@@ -95,7 +121,36 @@ class Estekhdam extends StatelessWidget {
                         Estekhdam_Cards(text: "نام و نام خانوادگی"),
                         Estekhdam_Cards(text: "کد ملی"),
                         Estekhdam_Cards(text: "رمز عبور"),
-                        Estekhdam_Cards(text: "فرصت های شفلی"),
+                        Container(
+                          padding:  EdgeInsets.all(size.height*0.02),
+                          child: TextField(
+                            decoration: InputDecoration(
+                              hintText: ' فرصت های شغلی' ,
+                              border: OutlineInputBorder(),
+                              suffixIcon: DropdownButtonFormField(
+                                hint: Text("  فرصت های شغلی  " ,
+                                  style: TextStyle(
+                                  color: Colors.grey
+                                ),
+                                ),
+                                value: selectedValue,
+                                onChanged: (newValue) {
+                                  setState(() {
+                                    selectedValue = newValue;
+                                  }
+                                  );
+                                },
+                                items: items.map<DropdownMenuItem<String>>((String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Text(value),
+                                  );
+                                }).toList(),
+                              ),
+                            ),
+                          ),
+                        ),
+                        
                         Container(
                           alignment: Alignment.centerRight,
                           margin: EdgeInsets.only(right: size.width*0.05, bottom: size.height*0.007),

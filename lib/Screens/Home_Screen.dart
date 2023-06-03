@@ -12,8 +12,8 @@ class Home_Screen extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   final String title;
-
-   Home_Screen({super.key, required this.title});
+  final String username;
+   Home_Screen({super.key, required this.title, required this.username});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class Home_Screen extends StatelessWidget {
         drawer: Drawer(
           child: Container(
             color: Colors.white54,
-              child: MainDrawer()),),
+              child: MainDrawer( username: username,)),),
 
         appBar: AppBar(
           //backgroundColor: Color(0xff293525),
@@ -60,35 +60,37 @@ class Home_Screen extends StatelessWidget {
                 ),
               ),
 
-Container(
-  height: size.height*0.015,
-),
+              Container(
+                height: size.height*0.015,
+              ),
+
               Directionality(
                 textDirection: TextDirection.ltr,
                 child: Container(
 
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-//                color: Colors.grey.withOpacity(0.5),
-
                   ),
                   width: size.width,
                   alignment: Alignment.bottomRight,
                   margin: EdgeInsets.only(top:20 ,right: 10 , left: 10 , bottom: 5),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.green.shade900,
-                          ),
-                          borderRadius: BorderRadius.circular(7)
-                          ),
-                        child: Text("   مشاهده همه   ",style: TextStyle(
-                            fontSize: size.width*0.03,
-                        ),
-                        ),
-                      ),
+                      // Container(
+                      //   decoration: BoxDecoration(
+                      //     border: Border.all(color: Colors.green.shade900,
+                      //     ),
+                      //     borderRadius: BorderRadius.circular(7)
+                      //     ),
+                      //   child:TextButton(
+                      //     onPressed: null,
+                      //     child: Text("مشاهده همه " , style: TextStyle(
+                      //       fontSize: size.width*0.03,
+                      //       color: Colors.black
+                      //     ),),
+                      //   ),
+                      // ),
                       Row(
                         children: [
                           Text(" قالب های ویژه " ,style: PersianFonts.Shabnam.copyWith(
@@ -119,21 +121,13 @@ Container(
                       width: size.width,
                       child: CarouselWithIndicatorDemo(),
                   ),
-
                 ],
               ),
-
-
             ],
-
           ),
         ),
-        // color: Colors.white70,
         ),
-      bottomNavigationBar:  GoogleNavBar()
-
-
-
+        bottomNavigationBar:  GoogleNavBar()
       ),
     );
   }
