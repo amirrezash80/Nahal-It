@@ -221,6 +221,21 @@ class _LoginPageState extends State<LoginPage> {
                               style: TextStyle(color: Colors.green),
                             ),
                           ),
+                          TextButton(
+                            onPressed: () {
+                              setState(() {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Home_Screen(title: "نهال آی تی", username: "مهمان")),
+                                );
+                              });
+                            },
+                            child: Text(
+                              "ورود به عنوان مهمان",
+                              style: TextStyle(color: Colors.green),
+                            ),
+                          ),
                           Text("اکانت ندارید؟"),
                         ],
                       ),
