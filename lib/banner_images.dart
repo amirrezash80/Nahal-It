@@ -1,5 +1,4 @@
 import 'package:banner_carousel/banner_carousel.dart';
-import 'package:flutter/material.dart';
 
 class BannerImages {
   static const String banner1 =

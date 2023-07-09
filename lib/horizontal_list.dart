@@ -2,7 +2,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:scroll_snap_list/scroll_snap_list.dart';
 
-
 class HorizontalListDemo extends StatefulWidget {
   @override
   _HorizontalListDemoState createState() => _HorizontalListDemoState();
@@ -48,7 +47,7 @@ class _HorizontalListDemoState extends State<HorizontalListDemo> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
           Container(
-            height: data[index].toDouble()*2,
+            height: data[index].toDouble() * 2,
             width: 25,
             color: Colors.lightBlueAccent,
             child: Text("i:$index\n${data[index]}"),

@@ -40,7 +40,8 @@ class AboutNahal extends StatelessWidget {
                           Text(
                             "Nahal it Team",
                             style: TextStyle(
-                                fontSize: size.width * 0.05, color: Colors.grey),
+                                fontSize: size.width * 0.05,
+                                color: Colors.grey),
                           ),
                         ],
                       ),
@@ -62,7 +63,9 @@ class AboutNahal extends StatelessWidget {
                         ),
                       ],
                     ),
-                    SizedBox(height: size.height*0.02,),
+                    SizedBox(
+                      height: size.height * 0.02,
+                    ),
                     Row(
                       children: [
                         Container(
@@ -80,7 +83,7 @@ class AboutNahal extends StatelessWidget {
                         ),
                         Container(
                           child: Column(
-                             crossAxisAlignment: CrossAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(" توسعه دهنده فرانت اند"),
                               Text(" مدیریت نهال آی تی"),
@@ -93,7 +96,9 @@ class AboutNahal extends StatelessWidget {
                         ),
                       ],
                     ),
-                    SizedBox(height: size.height*0.03,),
+                    SizedBox(
+                      height: size.height * 0.03,
+                    ),
                     Container(
                       child: Column(
                         children: [

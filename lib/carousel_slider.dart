@@ -8,7 +8,7 @@ final List<String> imgList = [
   'https://nahalit.com/wp-content/uploads/2022/12/photo_8_2022-12-25_23-58-11-300x200.jpg',
 ];
 
-final List<String>title = [
+final List<String> title = [
   'قالب لندینگ پیچ تک محصوله نایان',
   'قالب فروشگاهی پاندو',
   'قالب ابروان',
@@ -18,6 +18,7 @@ final List<String>title = [
 class DemoItem extends StatelessWidget {
   final String title;
   final String route;
+
   DemoItem(this.title, this.route);
 
   @override
@@ -31,7 +32,6 @@ class DemoItem extends StatelessWidget {
   }
 }
 
-
 class BasicDemo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -40,14 +40,14 @@ class BasicDemo extends StatelessWidget {
       appBar: AppBar(title: Text('Basic demo')),
       body: Container(
           child: CarouselSlider(
-            options: CarouselOptions(),
-            items: list
-                .map((item) => Container(
-              child: Center(child: Text(item.toString())),
-              color: Colors.green,
-            ))
-                .toList(),
-          )),
+        options: CarouselOptions(),
+        items: list
+            .map((item) => Container(
+                  child: Center(child: Text(item.toString())),
+                  color: Colors.green,
+                ))
+            .toList(),
+      )),
     );
   }
 }
@@ -60,16 +60,16 @@ class NoCenterDemo extends StatelessWidget {
       appBar: AppBar(title: Text('Basic demo')),
       body: Container(
           child: CarouselSlider(
-            options: CarouselOptions(
-              disableCenter: true,
-            ),
-            items: list
-                .map((item) => Container(
-              child: Text(item.toString()),
-              color: Colors.green,
-            ))
-                .toList(),
-          )),
+        options: CarouselOptions(
+          disableCenter: true,
+        ),
+        items: list
+            .map((item) => Container(
+                  child: Text(item.toString()),
+                  color: Colors.green,
+                ))
+            .toList(),
+      )),
     );
   }
 }
@@ -82,64 +82,63 @@ class ImageSliderDemo extends StatelessWidget {
       appBar: AppBar(title: Text('Image slider demo')),
       body: Container(
           child: CarouselSlider(
-            options: CarouselOptions(),
-            items: imgList
-                .map((item) => Container(
-              child: Center(
-                  child:
-                  Image.network(item, fit: BoxFit.cover, width: size.width )),
-            ))
-                .toList(),
-          )),
+        options: CarouselOptions(),
+        items: imgList
+            .map((item) => Container(
+                  child: Center(
+                      child: Image.network(item,
+                          fit: BoxFit.cover, width: size.width)),
+                ))
+            .toList(),
+      )),
     );
   }
 }
 
 final List<Widget> imageSliders = imgList
     .map((item) => Container(
-  child: Container(
-    margin: EdgeInsets.all(5.0),
-    child: ClipRRect(
-        borderRadius: BorderRadius.all(Radius.circular(7.0)),
-        child: Stack(
-          children: <Widget>[
-            Image.network(item, fit: BoxFit.cover, width: 1000.0),
-            Positioned(
-              bottom: 0.0,
-              left: 0.0,
-              right: 0.0,
-              child: Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      Color.fromARGB(200, 0, 0, 0),
-                      Color.fromARGB(150, 0, 0, 0),
-                      Color.fromARGB(0, 0, 0, 0)
-                    ],
-                    begin: Alignment.bottomCenter,
-                    end: Alignment.topCenter,
-                  ),
-                ),
-                padding: EdgeInsets.symmetric(
-                    vertical: 10.0, horizontal: 20.0),
-                child: Directionality(
-                  
-                  textDirection: TextDirection.rtl ,
-                  child: Text(
-                    title[imgList.indexOf(item)],
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.bold,
+          child: Container(
+            margin: EdgeInsets.all(5.0),
+            child: ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(7.0)),
+                child: Stack(
+                  children: <Widget>[
+                    Image.network(item, fit: BoxFit.cover, width: 1000.0),
+                    Positioned(
+                      bottom: 0.0,
+                      left: 0.0,
+                      right: 0.0,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              Color.fromARGB(200, 0, 0, 0),
+                              Color.fromARGB(150, 0, 0, 0),
+                              Color.fromARGB(0, 0, 0, 0)
+                            ],
+                            begin: Alignment.bottomCenter,
+                            end: Alignment.topCenter,
+                          ),
+                        ),
+                        padding: EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 20.0),
+                        child: Directionality(
+                          textDirection: TextDirection.rtl,
+                          child: Text(
+                            title[imgList.indexOf(item)],
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        )),
-  ),
-))
+                  ],
+                )),
+          ),
+        ))
     .toList();
 
 class ComplicatedImageDemo extends StatelessWidget {
@@ -223,7 +222,7 @@ class _ManuallyControlledSliderState extends State<ManuallyControlledSlider> {
                     ),
                   ),
                   ...Iterable<int>.generate(imgList.length).map(
-                        (int pageIndex) => Flexible(
+                    (int pageIndex) => Flexible(
                       child: ElevatedButton(
                         onPressed: () => _controller.animateToPage(pageIndex),
                         child: Text("$pageIndex"),
@@ -245,15 +244,15 @@ class NoonLoopingDemo extends StatelessWidget {
       appBar: AppBar(title: Text('Noon-looping carousel demo')),
       body: Container(
           child: CarouselSlider(
-            options: CarouselOptions(
-              aspectRatio: 2.0,
-              enlargeCenterPage: true,
-              enableInfiniteScroll: false,
-              initialPage: 2,
-              autoPlay: true,
-            ),
-            items: imageSliders,
-          )),
+        options: CarouselOptions(
+          aspectRatio: 2.0,
+          enlargeCenterPage: true,
+          enableInfiniteScroll: false,
+          initialPage: 2,
+          autoPlay: true,
+        ),
+        items: imageSliders,
+      )),
     );
   }
 }
@@ -265,14 +264,14 @@ class VerticalSliderDemo extends StatelessWidget {
       appBar: AppBar(title: Text('Vertical sliding carousel demo')),
       body: Container(
           child: CarouselSlider(
-            options: CarouselOptions(
-              aspectRatio: 2.0,
-              enlargeCenterPage: true,
-              scrollDirection: Axis.vertical,
-              autoPlay: true,
-            ),
-            items: imageSliders,
-          )),
+        options: CarouselOptions(
+          aspectRatio: 2.0,
+          enlargeCenterPage: true,
+          scrollDirection: Axis.vertical,
+          autoPlay: true,
+        ),
+        items: imageSliders,
+      )),
     );
   }
 }
@@ -294,13 +293,13 @@ class FullscreenSliderDemo extends StatelessWidget {
             ),
             items: imgList
                 .map((item) => Container(
-              child: Center(
-                  child: Image.network(
-                    item,
-                    fit: BoxFit.cover,
-                    height: height,
-                  )),
-            ))
+                      child: Center(
+                          child: Image.network(
+                        item,
+                        fit: BoxFit.cover,
+                        height: height,
+                      )),
+                    ))
                 .toList(),
           );
         },
@@ -316,18 +315,18 @@ class OnDemandCarouselDemo extends StatelessWidget {
       appBar: AppBar(title: Text('On-demand carousel demo')),
       body: Container(
           child: CarouselSlider.builder(
-            itemCount: 100,
-            options: CarouselOptions(
-              aspectRatio: 2.0,
-              enlargeCenterPage: true,
-              autoPlay: true,
-            ),
-            itemBuilder: (ctx, index, realIdx) {
-              return Container(
-                child: Text(index.toString()),
-              );
-            },
-          )),
+        itemCount: 100,
+        options: CarouselOptions(
+          aspectRatio: 2.0,
+          enlargeCenterPage: true,
+          autoPlay: true,
+        ),
+        itemBuilder: (ctx, index, realIdx) {
+          return Container(
+            child: Text(index.toString()),
+          );
+        },
+      )),
     );
   }
 }
@@ -345,44 +344,42 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-        children: [
-        Expanded(
-          child: CarouselSlider(
-            items: imageSliders,
-            carouselController: _controller,
-            options: CarouselOptions(
-                autoPlay: true,
-                enlargeCenterPage: true,
-                aspectRatio: 2.0,
-                onPageChanged: (index, reason) {
-                  setState(() {
-                    _current = index;
-                  });
-                }),
-          ),
+    return Column(children: [
+      Expanded(
+        child: CarouselSlider(
+          items: imageSliders,
+          carouselController: _controller,
+          options: CarouselOptions(
+              autoPlay: true,
+              enlargeCenterPage: true,
+              aspectRatio: 2.0,
+              onPageChanged: (index, reason) {
+                setState(() {
+                  _current = index;
+                });
+              }),
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: imgList.asMap().entries.map((entry) {
-            return GestureDetector(
-              onTap: () => _controller.animateToPage(entry.key),
-              child: Container(
-                width: 12.0,
-                height: 12.0,
-                margin: EdgeInsets.symmetric(vertical: 0, horizontal: 4.0),
-                decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: (Theme.of(context).brightness == Brightness.dark
-                        ? Colors.white
-                        : Colors.green.shade900)
-                        .withOpacity(_current == entry.key ? 0.9 : 0.4)),
-              ),
-            );
-          }).toList(),
-        ),
-      ]
-    );
+      ),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: imgList.asMap().entries.map((entry) {
+          return GestureDetector(
+            onTap: () => _controller.animateToPage(entry.key),
+            child: Container(
+              width: 12.0,
+              height: 12.0,
+              margin: EdgeInsets.symmetric(vertical: 0, horizontal: 4.0),
+              decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: (Theme.of(context).brightness == Brightness.dark
+                          ? Colors.white
+                          : Colors.green.shade900)
+                      .withOpacity(_current == entry.key ? 0.9 : 0.4)),
+            ),
+          );
+        }).toList(),
+      ),
+    ]);
   }
 }
 
@@ -420,20 +417,20 @@ class _PrefetchImageDemoState extends State<PrefetchImageDemo> {
       appBar: AppBar(title: Text('Prefetch image slider demo')),
       body: Container(
           child: CarouselSlider.builder(
-            itemCount: images.length,
-            options: CarouselOptions(
-              autoPlay: true,
-              aspectRatio: 2.0,
-              enlargeCenterPage: true,
-            ),
-            itemBuilder: (context, index, realIdx) {
-              return Container(
-                child: Center(
-                    child: Image.network(images[index],
-                        fit: BoxFit.cover, width: 1000)),
-              );
-            },
-          )),
+        itemCount: images.length,
+        options: CarouselOptions(
+          autoPlay: true,
+          aspectRatio: 2.0,
+          enlargeCenterPage: true,
+        ),
+        itemBuilder: (context, index, realIdx) {
+          return Container(
+            child: Center(
+                child: Image.network(images[index],
+                    fit: BoxFit.cover, width: 1000)),
+          );
+        },
+      )),
     );
   }
 }
@@ -489,7 +486,7 @@ class _CarouselChangeReasonDemoState extends State<CarouselChangeReasonDemo> {
                   ),
                 ),
                 ...Iterable<int>.generate(imgList.length).map(
-                      (int pageIndex) => Flexible(
+                  (int pageIndex) => Flexible(
                     child: ElevatedButton(
                       onPressed: () => _controller.animateToPage(pageIndex),
                       child: Text("$pageIndex"),
@@ -520,13 +517,13 @@ class KeepPageviewPositionDemo extends StatelessWidget {
         if (index == 3) {
           return Container(
               child: CarouselSlider(
-                options: CarouselOptions(
-                  aspectRatio: 2.0,
-                  enlargeCenterPage: true,
-                  pageViewKey: PageStorageKey<String>('carousel_slider'),
-                ),
-                items: imageSliders,
-              ));
+            options: CarouselOptions(
+              aspectRatio: 2.0,
+              enlargeCenterPage: true,
+              pageViewKey: PageStorageKey<String>('carousel_slider'),
+            ),
+            items: imageSliders,
+          ));
         } else {
           return Container(
             margin: EdgeInsets.symmetric(vertical: 20),
@@ -549,28 +546,28 @@ class MultipleItemDemo extends StatelessWidget {
       appBar: AppBar(title: Text('Multiple item in one slide demo')),
       body: Container(
           child: CarouselSlider.builder(
-            options: CarouselOptions(
-              aspectRatio: 2.0,
-              enlargeCenterPage: false,
-              viewportFraction: 1,
-            ),
-            itemCount: (imgList.length / 2).round(),
-            itemBuilder: (context, index, realIdx) {
-              final int first = index * 2;
-              final int second = first + 1;
-              return Row(
-                children: [first, second].map((idx) {
-                  return Expanded(
-                    flex: 1,
-                    child: Container(
-                      margin: EdgeInsets.symmetric(horizontal: 10),
-                      child: Image.network(imgList[idx], fit: BoxFit.cover),
-                    ),
-                  );
-                }).toList(),
+        options: CarouselOptions(
+          aspectRatio: 2.0,
+          enlargeCenterPage: false,
+          viewportFraction: 1,
+        ),
+        itemCount: (imgList.length / 2).round(),
+        itemBuilder: (context, index, realIdx) {
+          final int first = index * 2;
+          final int second = first + 1;
+          return Row(
+            children: [first, second].map((idx) {
+              return Expanded(
+                flex: 1,
+                child: Container(
+                  margin: EdgeInsets.symmetric(horizontal: 10),
+                  child: Image.network(imgList[idx], fit: BoxFit.cover),
+                ),
               );
-            },
-          )),
+            }).toList(),
+          );
+        },
+      )),
     );
   }
 }
@@ -578,19 +575,18 @@ class MultipleItemDemo extends StatelessWidget {
 class EnlargeStrategyZoomDemo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return
-      Container(
-       // color: Colors.green.shade900,
-        child: CarouselSlider(
-          options: CarouselOptions(
-            autoPlay: true,
-            aspectRatio: 2.0,
-            enlargeCenterPage: true,
-            enlargeStrategy: CenterPageEnlargeStrategy.zoom,
-            enlargeFactor: 0.4,
-          ),
-          items: imageSliders,
+    return Container(
+      // color: Colors.green.shade900,
+      child: CarouselSlider(
+        options: CarouselOptions(
+          autoPlay: true,
+          aspectRatio: 2.0,
+          enlargeCenterPage: true,
+          enlargeStrategy: CenterPageEnlargeStrategy.zoom,
+          enlargeFactor: 0.4,
         ),
+        items: imageSliders,
+      ),
     );
   }
 }

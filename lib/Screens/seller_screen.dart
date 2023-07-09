@@ -20,21 +20,22 @@ class SellerScreen extends StatelessWidget {
           Directionality(
             textDirection: TextDirection.rtl,
             child: Padding(
-              padding: EdgeInsets.all(size.width*0.03),
+              padding: EdgeInsets.all(size.width * 0.03),
               child: Column(
                 children: [
-                  Text("در نهال آیتی فروشنده شوید :", style:
-                    TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: size.width*0.08
-                    ),),
-                  SizedBox(
-                    height: size.height*0.02,
+                  Text(
+                    "در نهال آیتی فروشنده شوید :",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: size.width * 0.08),
                   ),
-                  Text("شما می توانید با عضویت در بخش فروشندگان سایت نهال آیتی شروع به کسب در آمد کنید .",
-                  style: TextStyle(
-                    fontSize: size.width*0.04
-                  ),)
+                  SizedBox(
+                    height: size.height * 0.02,
+                  ),
+                  Text(
+                    "شما می توانید با عضویت در بخش فروشندگان سایت نهال آیتی شروع به کسب در آمد کنید .",
+                    style: TextStyle(fontSize: size.width * 0.04),
+                  )
                 ],
               ),
             ),

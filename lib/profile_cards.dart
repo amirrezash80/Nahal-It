@@ -1,30 +1,28 @@
 import 'package:flutter/material.dart';
 
 class Profile_Cards extends StatelessWidget {
-
   final String text;
 
-  const Profile_Cards({ required this.text});
+  const Profile_Cards({required this.text});
 
   @override
   Widget build(BuildContext context) {
-    var size  = MediaQuery.of(context).size;
+    var size = MediaQuery.of(context).size;
 
     return Column(
       children: [
         Container(
-          height: size.height*0.07,
+          height: size.height * 0.07,
           child: OutlinedButton(
-        onPressed: null,
+            onPressed: null,
             style: OutlinedButton.styleFrom(
               side: BorderSide.none,
             ),
             child: Row(
               children: [
-                Text(text,
-                  style: TextStyle(
-                      color: Colors.black
-                  ),
+                Text(
+                  text,
+                  style: TextStyle(color: Colors.black),
                 ),
                 Spacer(),
                 Icon(

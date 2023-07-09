@@ -7,7 +7,6 @@ class Category {
   Category({required this.image, required this.name});
 }
 
-
 final List<Color> kMixedColors = [
   Colors.indigo,
   Colors.pinkAccent,
@@ -30,4 +29,3 @@ final List<Category> categories = [
   Category(image: "lib/images/html.jpeg", name: "قالب ابروان"),
   Category(image: "lib/images/nayan.jpeg", name: "قالب نایان"),
 ];
-

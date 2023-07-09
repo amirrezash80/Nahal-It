@@ -4,7 +4,6 @@ import 'package:nahal_it/Screens/signup_screen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class LoginPage extends StatefulWidget {
-
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
@@ -14,9 +13,7 @@ class _LoginPageState extends State<LoginPage> {
   late String password;
 
   @override
-
-  void Login() async
-  {
+  void Login() async {
     final supabase = Supabase.instance.client;
     final AuthResponse res = await supabase.auth.signUp(
       email: email_address,
@@ -26,22 +23,23 @@ class _LoginPageState extends State<LoginPage> {
     final Session? session = res.session;
     final User? user = res.user;
 
-
     Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder:
-                (context)=>
-                    Home_Screen(title: "Nahal_it" , username: email_address,),
+      context,
+      MaterialPageRoute(
+        builder: (context) => Home_Screen(
+          title: "Nahal_it",
+          username: email_address,
         ),
+      ),
     );
   }
+
   void initState() {
     super.initState();
   }
 
   Widget build(BuildContext context) {
-    var size  = MediaQuery.of(context).size;
+    var size = MediaQuery.of(context).size;
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -49,68 +47,77 @@ class _LoginPageState extends State<LoginPage> {
             children: [
               Container(
                 color: Colors.white,
-                child:
-                Image(
+                child: Image(
                   image: AssetImage("lib/images/Logo.png"),
-                  height: size.height*0.25,
+                  height: size.height * 0.25,
                 ),
-                ),
-              Container(
-              decoration: BoxDecoration(
-                color: Colors.grey.shade200,
-                border: Border.all(
-                  color: Colors.grey.shade200,
               ),
-              borderRadius: BorderRadius.only(topLeft: Radius.circular(40.0),
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade200,
+                  border: Border.all(
+                    color: Colors.grey.shade200,
+                  ),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(40.0),
                     topRight: Radius.circular(40.0),
-    ),
-    ),
-                height: size.height*0.6,
+                  ),
+                ),
+                height: size.height * 0.6,
                 child: Column(
                   children: [
-                    SizedBox(height: size.height*0.03,),
+                    SizedBox(
+                      height: size.height * 0.03,
+                    ),
                     Container(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text("به اکانت ",
-                            style: TextStyle(
-                          fontSize: size.width*0.05
-                          ),
+                          Text(
+                            "به اکانت ",
+                            style: TextStyle(fontSize: size.width * 0.05),
                           ),
                           Text(
                             "ورود ",
-                            style:
-                            TextStyle(
+                            style: TextStyle(
                                 color: Colors.green,
-                                fontSize: size.width*0.05
-                          ),
+                                fontSize: size.width * 0.05),
                           ),
                         ],
                       ),
                     ),
-                    SizedBox(height: size.height*0.03,),
+                    SizedBox(
+                      height: size.height * 0.03,
+                    ),
                     Container(
-                      width: size.width*0.9,
-                        child: Text("آدرس ایمیل" , textAlign: TextAlign.end,)),
-                    SizedBox(height: size.height*0.015,),
+                        width: size.width * 0.9,
+                        child: Text(
+                          "آدرس ایمیل",
+                          textAlign: TextAlign.end,
+                        )),
+                    SizedBox(
+                      height: size.height * 0.015,
+                    ),
                     Container(
                       color: Colors.white,
-                      height: size.height*0.07,
-                      width: size.width*0.9,
+                      height: size.height * 0.07,
+                      width: size.width * 0.9,
                       child: Directionality(
                         textDirection: TextDirection.rtl,
                         child: Padding(
-                          padding:  EdgeInsets.only(right: size.width*0.02),
+                          padding: EdgeInsets.only(right: size.width * 0.02),
                           child: Center(
                             child: TextField(
-                             onChanged:(text){
-                               setState(() {
-                                 email_address = text;
-                               });
-                             },
+                              onChanged: (text) {
+                                setState(() {
+                                  email_address = text;
+                                });
+                              },
                               decoration: InputDecoration(
-                                icon: Icon(Icons.email , color: Colors.green,),
+                                icon: Icon(
+                                  Icons.email,
+                                  color: Colors.green,
+                                ),
                                 border: InputBorder.none,
                                 hintText: 'آدرس ایمیل',
                               ),
@@ -119,28 +126,38 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                     ),
-                    SizedBox(height: size.height*0.015,),
+                    SizedBox(
+                      height: size.height * 0.015,
+                    ),
                     Container(
-                        width: size.width*0.9,
-                        child: Text("رمز عبور", textAlign: TextAlign.end,)),
-                    SizedBox(height: size.height*0.01,),
+                        width: size.width * 0.9,
+                        child: Text(
+                          "رمز عبور",
+                          textAlign: TextAlign.end,
+                        )),
+                    SizedBox(
+                      height: size.height * 0.01,
+                    ),
                     Container(
                       color: Colors.white,
-                      height: size.height*0.07,
-                      width: size.width*0.9,
+                      height: size.height * 0.07,
+                      width: size.width * 0.9,
                       child: Directionality(
                         textDirection: TextDirection.rtl,
                         child: Padding(
-                          padding:  EdgeInsets.only(right: size.width*0.02),
+                          padding: EdgeInsets.only(right: size.width * 0.02),
                           child: Center(
                             child: TextField(
-                              onChanged: (text){
+                              onChanged: (text) {
                                 setState(() {
                                   password = text;
                                 });
                               },
-                                decoration: InputDecoration(
-                                icon: Icon(Icons.lock , color: Colors.green,),
+                              decoration: InputDecoration(
+                                icon: Icon(
+                                  Icons.lock,
+                                  color: Colors.green,
+                                ),
                                 border: InputBorder.none,
                                 hintText: 'رمز عبور',
                               ),
@@ -149,62 +166,65 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                     ),
-                    SizedBox(height: size.height*0.02,),
+                    SizedBox(
+                      height: size.height * 0.02,
+                    ),
                     Container(
-                      width: size.width*0.8,
-                      child: Text("فراموشی رمز " ,
-                      style: TextStyle(
-                        color: Colors.green
-                      ),
+                      width: size.width * 0.8,
+                      child: Text(
+                        "فراموشی رمز ",
+                        style: TextStyle(color: Colors.green),
                         textAlign: TextAlign.start,
                       ),
                     ),
-                    SizedBox(height: size.height*0.03,),
-                    Container(
-                    width: size.width*0.85,
-                    height: size.height*0.045,
-                    child: ElevatedButton(
-                        style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
-                            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(12.0),
-                                )
-                            )
-                        ),
-                        onPressed: Login, child:
-                    Text("ورود",style: TextStyle(
-                      color: Colors.white
-                    ),)),
-                  ),
                     SizedBox(
-                      height: size.height*0.03,),
+                      height: size.height * 0.03,
+                    ),
                     Container(
-                    alignment: Alignment.center,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        TextButton(
-                        onPressed:(){
-                    setState(() {
-                    Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => SignUp_Page()),
-                    );
-                    });
-                    },
+                      width: size.width * 0.85,
+                      height: size.height * 0.045,
+                      child: ElevatedButton(
+                          style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all<Color>(
+                                  Colors.green),
+                              shape: MaterialStateProperty.all<
+                                      RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12.0),
+                              ))),
+                          onPressed: Login,
                           child: Text(
-                            "ثبت نام" ,
-                            style:
-                            TextStyle(
-                                color: Colors.green
-                        ),
-                        ),
-                        ),
-                        Text("اکانت ندارید؟"),
-                      ],
-                     ),
-                   ),
+                            "ورود",
+                            style: TextStyle(color: Colors.white),
+                          )),
+                    ),
+                    SizedBox(
+                      height: size.height * 0.03,
+                    ),
+                    Container(
+                      alignment: Alignment.center,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          TextButton(
+                            onPressed: () {
+                              setState(() {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => SignUp_Page()),
+                                );
+                              });
+                            },
+                            child: Text(
+                              "ثبت نام",
+                              style: TextStyle(color: Colors.green),
+                            ),
+                          ),
+                          Text("اکانت ندارید؟"),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ),

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:nahal_it/bottomNavigationBar.dart';
 
 import '../profile_cards.dart';
 
 class Profile_screen extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
-    var size  = MediaQuery.of(context).size;
+    var size = MediaQuery.of(context).size;
 
     return Scaffold(
       appBar: AppBar(
@@ -14,31 +14,30 @@ class Profile_screen extends StatelessWidget {
         title: Text("پروفایل"),
         backgroundColor: Colors.green,
       ),
-
       body: SingleChildScrollView(
         child: Column(
           children: [
             Container(
-              width: size.width*0.3,
+              width: size.width * 0.3,
               child: Column(
-                children:
-                [
-                  SizedBox(height: size.height*0.03,),
+                children: [
+                  SizedBox(
+                    height: size.height * 0.03,
+                  ),
                   CircleAvatar(
                     backgroundColor: Colors.green,
                     minRadius: 50,
                     maxRadius: 75,
-                ),
-                  Text("name",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold
                   ),
+                  Text(
+                    "name",
+                    style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
             ),
             Padding(
-              padding:  EdgeInsets.only(top: size.height*0.03),
+              padding: EdgeInsets.only(top: size.height * 0.03),
               child: Container(
                 height: 1,
                 color: Colors.grey,
@@ -48,17 +47,17 @@ class Profile_screen extends StatelessWidget {
               textDirection: TextDirection.rtl,
               child: Column(
                 children: [
-                 Profile_Cards(text: 'فرم استخدام'),
-
+                  Profile_Cards(text: 'فرم استخدام'),
                   Container(
                     alignment: Alignment.topRight,
                     child: Padding(
-                      padding: EdgeInsets.only(top: size.height*0.02 , right:size.width*0.01  ),
-                      child: Text("اطلاعات شخصی" ,
-                       style: TextStyle(
-                         fontWeight: FontWeight.bold,
-                         fontSize: size.height*0.02
-                       ),
+                      padding: EdgeInsets.only(
+                          top: size.height * 0.02, right: size.width * 0.01),
+                      child: Text(
+                        "اطلاعات شخصی",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: size.height * 0.02),
                       ),
                     ),
                   ),
@@ -69,16 +68,13 @@ class Profile_screen extends StatelessWidget {
                   Profile_Cards(text: "شماره تلفن ثابت"),
                   Profile_Cards(text: "پست الکترونیک"),
                   Profile_Cards(text: "رمز عبور"),
-
-
-
                 ],
               ),
             )
-
           ],
         ),
       ),
+      bottomNavigationBar: Convex(),
     );
   }
 }

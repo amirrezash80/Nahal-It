@@ -1,9 +1,20 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:nahal_it/estekhdam_cards.dart';
 
 class Purchase_guide extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    void _pickFile() async {
+      // opens storage to pick files and the picked file or files
+      // are assigned into result and if no file is chosen result is null.
+      // you can also toggle "allowMultiple" true or false depending on your need
+      final result = await FilePicker.platform.pickFiles(allowMultiple: false);
+
+      // if no file is picked
+      if (result == null) return;
+    }
+
     var size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -53,7 +64,15 @@ class Purchase_guide extends StatelessWidget {
                 Estekhdam_Cards(text: "سفارش پروژه"),
                 Estekhdam_Cards(text: "توضیحات"),
                 Text("در صورت نیاز به آپلود فایل آپلود کنید"),
-                ElevatedButton(onPressed: null, child: Text("choose file")),
+                ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStatePropertyAll(Colors.grey)
+                  ),
+                  onPressed: () {
+                    _pickFile();
+                  },
+                  child: Text("choose file"),
+                ),
                 Container(
                   width: size.width * 0.8,
                   height: size.height * 0.05,
@@ -71,7 +90,7 @@ class Purchase_guide extends StatelessWidget {
                     // Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
                     child: Text(
                       "ارسال",
-                      style: TextStyle(fontSize: size.width * 0.05),
+                      style: TextStyle(fontSize: size.width * 0.05 ,color: Colors.white),
                     ),
                   ),
                 ),

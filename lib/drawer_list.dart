@@ -5,66 +5,68 @@ import 'package:nahal_it/Screens/about_us.dart';
 import 'package:nahal_it/Screens/login_screen.dart';
 
 import 'Screens/profile_screen.dart';
-class Drawer_list extends StatefulWidget {
 
+class Drawer_list extends StatefulWidget {
   final IconData icon;
   final String text;
-  final bool subset ;
+  final bool subset;
+
   final Widget page;
 
-  const Drawer_list({ required this.icon, required this.text , required this.subset, required this.page});
+  const Drawer_list(
+      {required this.icon,
+      required this.text,
+      required this.subset,
+      required this.page});
 
   @override
   State<Drawer_list> createState() => _Drawer_listState();
 }
 
-
-
 class _Drawer_listState extends State<Drawer_list> {
-
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
   }
+
   @override
-
   Widget build(BuildContext context) {
-
     var size = MediaQuery.of(context).size;
 
     return Column(
       children: [
         ListTile(
           visualDensity: VisualDensity(vertical: 4),
-          onTap: (){
-            setState(() {
-              Navigator.push(
-                context, MaterialPageRoute(builder: (context) => widget.page
-              ),
-              );
-            },
+          onTap: () {
+            setState(
+              () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => widget.page),
+                );
+              },
             );
           },
           leading: Icon(
             widget.icon,
             color: Color(0xff2e5c66),
-            size: size.width*0.08,
+            size: size.width * 0.08,
           ),
-          title:Row(
+          title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
                 widget.text,
-                style: TextStyle(
-                    fontSize: size.width*0.05
-                ),
+                style: TextStyle(fontSize: size.width * 0.05),
               ),
-              if(widget.subset) Icon(Icons.arrow_forward_ios_outlined ,color: Colors.black54,) ,
+              if (widget.subset)
+                Icon(
+                  Icons.arrow_forward_ios_outlined,
+                  color: Colors.black54,
+                ),
             ],
           ),
-
         ),
         Container(
           color: Colors.green.shade100,
@@ -73,11 +75,10 @@ class _Drawer_listState extends State<Drawer_list> {
         )
       ],
     );
-
   }
 }
-class ExpansionList extends StatelessWidget
-{
+
+class ExpansionList extends StatelessWidget {
   final String title;
   final IconData icon;
   final List<Widget> children;
