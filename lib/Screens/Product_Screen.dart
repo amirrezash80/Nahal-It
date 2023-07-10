@@ -80,18 +80,43 @@ class _ProductContentScreenState extends State<ProductContentScreen> {
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
+            iconTheme: IconThemeData(color: Colors.green.shade800),
             pinned: true,
             expandedHeight: size.height * 0.4,
             flexibleSpace: FlexibleSpaceBar(
-              background: Hero(
-                tag: widget.imageUrl,
-                child: Image.network(
-                  widget.imageUrl,
-                  fit: BoxFit.fill,
+              background: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.white,
+                    width: 10.0,
+                  ),
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: Hero(
+                  tag: widget.imageUrl,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.3),
+                          spreadRadius: 30,
+                          blurRadius: 40,
+                          offset: Offset(0, 20),
+                        ),
+                      ],
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(40.0),
+                      child: Image.network(
+                        widget.imageUrl,
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ),
-            backgroundColor: Colors.green,
+            backgroundColor: Colors.white,
             actions: [
               IconButton(
                 onPressed: toggleFavourite,
@@ -109,7 +134,7 @@ class _ProductContentScreenState extends State<ProductContentScreen> {
                 icon: Icon(
                   Icons.shopping_cart,
                   size: 35,
-                  color: Colors.white,
+                  color: Colors.green,
                 ),
               ),
             ],

@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:persian_fonts/persian_fonts.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+
 import 'Controller.dart';
 import 'Screens/logo_screen.dart';
-import 'package:get/get.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Get.put(CartController());
   Get.put(NavigationController());
   Get.put(FavouriteController());
   Get.put(fetchproduct());
+  Get.put(ProfileController());
+  Get.put(SearchController());
   await Supabase.initialize(
       url: "https://forkbdelcxmfvvpocxjr.supabase.co",
       anonKey:

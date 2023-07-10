@@ -12,6 +12,9 @@ class StorePage extends StatefulWidget {
 class _StorePageState extends State<StorePage> {
   final cartController = Get.find<CartController>();
   final fetchproductController = Get.find<fetchproduct>();
+  final textFilter = Get.find<SearchController>();
+
+  List<dynamic> filteredProducts = [];
 
   @override
   void initState() {
@@ -23,14 +26,40 @@ class _StorePageState extends State<StorePage> {
     if (!fetchproductController.isDataLoaded) {
       try {
         final data = await fetchProducts();
+        fetchproductController.products = data;
+        fetchproductController.isDataLoaded = true;
         setState(() {
-          fetchproductController.products = data;
-          fetchproductController.isDataLoaded = true;
+          filteredProducts =
+              updateFilteredProducts(fetchproductController.products!);
         });
       } catch (error) {
         print('Error fetching products: $error');
       }
+    } else {
+      setState(() {
+        filteredProducts =
+            updateFilteredProducts(fetchproductController.products!);
+      });
     }
+  }
+
+  List<dynamic> updateFilteredProducts(List<dynamic> products) {
+    if (textFilter.textFilter.isNotEmpty) {
+      return products.where((product) {
+        var title = product['title']['rendered'].toLowerCase();
+        var filter = textFilter.textFilter.toLowerCase();
+        return title.contains(filter) || title.startsWith(filter);
+      }).toList();
+    } else {
+      return products;
+    }
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    textFilter.textFilter = '';
+    super.dispose();
   }
 
   @override
@@ -48,22 +77,18 @@ class _StorePageState extends State<StorePage> {
         child: Directionality(
           textDirection: TextDirection.rtl,
           child: fetchproductController.isDataLoaded
-              ? fetchproductController.products != null
+              ? filteredProducts.isNotEmpty
                   ? GridView.builder(
-                      padding:
-                          EdgeInsets.all(10.0), // Adjust the padding as needed
+                      padding: EdgeInsets.all(10.0),
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
                         childAspectRatio: 0.8,
-                        // Adjust the aspect ratio as needed
                         crossAxisSpacing: 10.0,
-                        // Add spacing between the products horizontally
-                        mainAxisSpacing:
-                            10.0, // Add spacing between the products vertically
+                        mainAxisSpacing: 10.0,
                       ),
-                      itemCount: fetchproductController.products!.length,
+                      itemCount: filteredProducts.length,
                       itemBuilder: (context, index) {
-                        var post = fetchproductController.products![index];
+                        var post = filteredProducts[index];
                         var yoastHeadJson = post['yoast_head_json'];
                         var ogImage = yoastHeadJson != null
                             ? yoastHeadJson['og_image']

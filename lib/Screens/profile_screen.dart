@@ -1,10 +1,25 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:nahal_it/Controller.dart';
 import 'package:nahal_it/bottomNavigationBar.dart';
 
-import '../main_drawer.dart';
 import '../profile_cards.dart';
 
 class Profile_screen extends StatelessWidget {
+  final ProfileController profileController = Get.find<ProfileController>();
+
+  void _pickImage() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.image,
+    );
+
+    if (result != null && result.files.isNotEmpty) {
+      String imagePath = result.files.single.path!;
+      profileController.setImage(imagePath);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -13,13 +28,6 @@ class Profile_screen extends StatelessWidget {
       textDirection: TextDirection.rtl,
       child: Scaffold(
         backgroundColor: Colors.white,
-        drawer: Drawer(
-          child: Container(
-              color: Colors.white54,
-              child: MainDrawer(
-                username: "username",
-              )),
-        ),
         appBar: AppBar(
           centerTitle: true,
           title: Text("پروفایل"),
@@ -35,10 +43,19 @@ class Profile_screen extends StatelessWidget {
                     SizedBox(
                       height: size.height * 0.03,
                     ),
-                    CircleAvatar(
-                      backgroundColor: Colors.green,
-                      minRadius: 50,
-                      maxRadius: 75,
+                    GestureDetector(
+                      onTap: _pickImage,
+                      child: Obx(
+                        () => CircleAvatar(
+                          backgroundColor: Colors.green,
+                          minRadius: 50,
+                          maxRadius: 75,
+                          backgroundImage: profileController
+                                  .imagePath.value.isNotEmpty
+                              ? AssetImage(profileController.imagePath.value)
+                              : null,
+                        ),
+                      ),
                     ),
                     Text(
                       "name",
@@ -67,13 +84,14 @@ class Profile_screen extends StatelessWidget {
                         child: Text(
                           "اطلاعات شخصی",
                           style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: size.height * 0.02),
+                            fontWeight: FontWeight.bold,
+                            fontSize: size.height * 0.02,
+                          ),
                         ),
                       ),
                     ),
                     Profile_Cards(text: "نام و نام خانوادگی"),
-                    Profile_Cards(text: "شماره ی موبایل"),
+                    Profile_Cards(text: "شماره موبایل"),
                     Profile_Cards(text: "روش بازگرداندن وجه"),
                     Profile_Cards(text: "کد ملی"),
                     Profile_Cards(text: "شماره تلفن ثابت"),

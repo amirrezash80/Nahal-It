@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
+import 'package:get/get.dart';
+import 'package:nahal_it/Screens/Store_page_screen.dart';
 import 'package:nahal_it/Screens/favourite_screen.dart';
-import 'package:nahal_it/main_drawer.dart';
+
+import 'Controller.dart';
 
 class MyAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    TextEditingController searchController = TextEditingController();
+    var textFilter = Get.find<SearchController>();
 
     return Directionality(
       textDirection: TextDirection.ltr,
@@ -28,11 +32,7 @@ class MyAppBar extends StatelessWidget {
                           color: Color(0xff2e5c66),
                           iconSize: size.width * 0.09,
                           onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Favourite_Screen()),
-                            );
+                            Get.to(Favourite_Screen());
                           },
                         )
                       ],
@@ -47,6 +47,7 @@ class MyAppBar extends StatelessWidget {
                     child: Directionality(
                       textDirection: TextDirection.rtl,
                       child: TextField(
+                        controller: searchController,
                         cursorColor: Colors.lightGreen,
                         decoration: InputDecoration(
                             // border: InputBorder.none,
@@ -54,10 +55,17 @@ class MyAppBar extends StatelessWidget {
                             hintStyle: TextStyle(
                               color: Color(0xff2e5c66),
                             ),
-                            prefixIcon: Icon(
-                              Icons.search,
-                              color: Color(0xff2e5c66),
-                              size: size.width * 0.08,
+                            prefixIcon: GestureDetector(
+                              onTap: () {
+                                textFilter.isFilterd = true;
+                                textFilter.textFilter = searchController.text;
+                                Get.to(StorePage());
+                              },
+                              child: Icon(
+                                Icons.search,
+                                color: Color(0xff2e5c66),
+                                size: size.width * 0.08,
+                              ),
                             )),
                       ),
                     ),

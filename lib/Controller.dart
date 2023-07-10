@@ -15,6 +15,11 @@ class fetchproduct{
 }
 
 
+class SearchController {
+  bool isFilterd = false;
+  String textFilter = '';
+}
+
 class CartController extends GetxController {
   final cartItems = <CartItem>[].obs;
 
@@ -89,5 +94,23 @@ class NavigationController extends GetxController {
 
   void setIndex(int index) {
     selectedIndex.value = index;
+  }
+}
+
+class ProfileController extends GetxController {
+  var imagePath = ''.obs;
+  var name = ''.obs;
+  var isEditingName = false.obs; // Added isEditingName getter
+
+  void setImage(String path) {
+    imagePath.value = path;
+  }
+
+  void setName(String newName) {
+    name.value = newName;
+  }
+
+  void toggleNameEditing() {
+    isEditingName.value = !isEditingName.value;
   }
 }
