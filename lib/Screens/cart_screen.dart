@@ -31,7 +31,7 @@ class CartPage extends StatelessWidget {
                     height: size.height * 0.1,
                     child: ListTile(
                       title: Text(cartItem.product.title),
-                      subtitle: Text('Quantity: ${cartItem.quantity}'),
+                      subtitle: Text('تعداد : ${cartItem.quantity}'),
                       leading: Container(
                         child: Image.network(cartItem.product.imageUrl),
                       ),

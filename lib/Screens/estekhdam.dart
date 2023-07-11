@@ -1,6 +1,6 @@
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:nahal_it/estekhdam_cards.dart';
+import 'package:supabase/supabase.dart';
 
 class Estekhdam extends StatefulWidget {
   @override
@@ -31,13 +31,42 @@ class _EstekhdamState extends State<Estekhdam> {
     "موشن گرافیک",
   ];
 
+  final _formKey = GlobalKey<FormState>();
+
+  String? name;
+  String? nationalCode;
+  String? password;
+  String? jobPosition;
+  String? email;
+  String? phoneNumber;
+
+  Future<void> insertData({
+    String? nationalCode,
+    String? name,
+    String? password,
+    String? jobPosition,
+    String? email,
+    String? phoneNumber,
+  }) async {
+    final supabase = SupabaseClient('https://forkbdelcxmfvvpocxjr.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZvcmtiZGVsY3htZnZ2cG9jeGpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODI5NDA0MTEsImV4cCI6MTk5ODUxNjQxMX0.t-gl6lFjcxE_iv8jAj54SvzviAXoUVicuYRp1rxXDlE');
+
+    final response = await supabase
+        .from('Estekhdam')
+        .insert({
+      'SSN': nationalCode,
+      'name':name,
+      'password': password,
+      'job_position': jobPosition,
+      'email': email,
+      'phone_number': phoneNumber,
+    })
+        .execute();
+  }
+
   @override
   Widget build(BuildContext context) {
-    var name, id, pass, email, phone_number;
-
     var size = MediaQuery.of(context).size;
 
-    var selectedValue;
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
@@ -54,7 +83,9 @@ class _EstekhdamState extends State<Estekhdam> {
                     child: Text(
                       "استخدام",
                       style: TextStyle(
-                          fontSize: size.width * 0.06, color: Colors.white),
+                        fontSize: size.width * 0.06,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ),
@@ -69,136 +100,146 @@ class _EstekhdamState extends State<Estekhdam> {
                     width: size.width,
                     decoration: BoxDecoration(
                       color: Colors.white,
-                      border: Border.all(color: Colors.white),
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(40.0),
                         topRight: Radius.circular(40.0),
                       ),
                     ),
                     height: size.height,
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: size.height * 0.03,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Text("شفل درخواستی"),
-                            Text("وضعیت درخواست"),
-                            Text("رضایت سنجی"),
-                            Text("جزییات"),
-                          ],
-                        ),
-                        SizedBox(
-                          height: size.height * 0.005,
-                        ),
-                        Container(
-                          color: Colors.grey,
-                          height: 1,
-                          width: size.width * 0.9,
-                        ),
-                        Row(
-                          children: [
-                            SizedBox(
-                              width: size.width * 0.13,
-                            ),
-                            Text("---"),
-                            SizedBox(
-                              width: size.width * 0.22,
-                            ),
-                            Text("---"),
-                            SizedBox(
-                              width: size.width * 0.22,
-                            ),
-                            Text("---"),
-                            SizedBox(
-                              width: size.width * 0.15,
-                            ),
-                            Text("---"),
-                          ],
-                        ),
-                        SizedBox(
-                          height: size.height * 0.04,
-                        ),
-                        Container(
-                          alignment: Alignment.centerRight,
-                          margin: EdgeInsets.only(
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(height: size.height * 0.04),
+                          Container(
+                            alignment: Alignment.centerRight,
+                            margin: EdgeInsets.only(
                               right: size.width * 0.05,
-                              bottom: size.height * 0.007),
-                          child: Text(
-                            "اطلاعات ضروری",
-                            style: TextStyle(
+                              bottom: size.height * 0.007,
+                            ),
+                            child: Text(
+                              "اطلاعات ضروری",
+                              style: TextStyle(
                                 fontSize: size.width * 0.04,
-                                fontWeight: FontWeight.bold),
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                           ),
-                        ),
-                        Container(
-                          color: Colors.grey,
-                          width: size.width * 0.9,
-                          height: 1,
-                        ),
-                        Estekhdam_Cards(text: "نام و نام خانوادگی"),
-                        Estekhdam_Cards(text: "کد ملی"),
-                        Estekhdam_Cards(text: "رمز عبور"),
-                        Container(
-                          padding: EdgeInsets.all(size.height * 0.02),
-                          child: TextField(
-                            decoration: InputDecoration(
-                              hintText: ' فرصت های شغلی',
-                              border: OutlineInputBorder(),
-                              suffixIcon: DropdownButtonFormField(
-                                hint: Text(
-                                  "  فرصت های شغلی  ",
-                                  style: TextStyle(color: Colors.grey),
-                                ),
-                                value: selectedValue,
-                                onChanged: (newValue) {
-                                  setState(() {
-                                    selectedValue = newValue;
-                                  });
-                                },
-                                items: items.map<DropdownMenuItem<String>>(
+                          Container(
+                            color: Colors.grey,
+                            width: size.width * 0.9,
+                            height: 1,
+                          ),
+                          EstekhdamCards(
+                            text: "نام و نام خانوادگی",
+                            onSaved: (value) {
+                              name = value;
+                            },
+                          ),
+                          EstekhdamCards(
+                            text: "کد ملی",
+                            onSaved: (value) {
+                              nationalCode = value;
+                            },
+                          ),
+                          EstekhdamCards(
+                            text: "رمز عبور",
+                            onSaved: (value) {
+                              password = value;
+                            },
+                          ),
+                          Container(
+                            padding: EdgeInsets.all(size.height * 0.02),
+                            child: DropdownButtonFormField<String>(
+                              hint: Text(
+                                ' فرصت های شغلی',
+                                style: TextStyle(color: Colors.grey),
+                              ),
+                              value: dropdownvalue,
+                              onChanged: (newValue) {
+                                setState(() {
+                                  dropdownvalue = newValue!;
+                                  jobPosition = newValue;
+                                });
+                              },
+                              items: items.map<DropdownMenuItem<String>>(
                                     (String value) {
                                   return DropdownMenuItem<String>(
                                     value: value,
                                     child: Text(value),
                                   );
-                                }).toList(),
+                                },
+                              ).toList(),
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(),
                               ),
                             ),
                           ),
-                        ),
-                        Container(
-                          alignment: Alignment.centerRight,
-                          margin: EdgeInsets.only(
+                          Container(
+                            alignment: Alignment.centerRight,
+                            margin: EdgeInsets.only(
                               right: size.width * 0.05,
-                              bottom: size.height * 0.007),
-                          child: Text(
-                            "اطلاعات تماس",
-                            style: TextStyle(
+                              bottom: size.height * 0.007,
+                            ),
+                            child: Text(
+                              "اطلاعات تماس",
+                              style: TextStyle(
                                 fontSize: size.width * 0.04,
-                                fontWeight: FontWeight.bold),
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                           ),
-                        ),
-                        Estekhdam_Cards(text: "آدرس ایمیل"),
-                        Estekhdam_Cards(text: "شماره‌ی موبایل"),
-                        ElevatedButton(
-                          style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStateProperty.all<Color>(Colors.green),
-                            shape: MaterialStateProperty.all<
-                                RoundedRectangleBorder>(RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12.0),
-                            )),
+                          EstekhdamCards(
+                            text: "آدرس ایمیل",
+                            onSaved: (value) {
+                              email = value;
+                            },
                           ),
-                          onPressed: null,
-                          child: Text(
-                            "ارسال فرم",
-                            style: TextStyle(color: Colors.white),
+                          EstekhdamCards(
+                            text: "شماره‌ی موبایل",
+                            onSaved: (value) {
+                              phoneNumber = value;
+                            },
                           ),
-                        ),
-                      ],
+                          Center(
+                            child: ElevatedButton(
+                              style: ButtonStyle(
+                                backgroundColor: MaterialStatePropertyAll<Color>(Colors.green),
+                                shape: MaterialStatePropertyAll<
+                                    RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12.0),
+                                  ),
+                                ),
+                              ),
+                              onPressed: () {
+                                if (_formKey.currentState!.validate()) {
+                                  _formKey.currentState!.save();
+                                  insertData(
+                                    nationalCode: nationalCode,
+                                    name : name,
+                                    password: password,
+                                    jobPosition: jobPosition,
+                                    email: email,
+                                    phoneNumber: phoneNumber,
+                                  );
+                                  print(nationalCode);
+                                  print(jobPosition);
+                                  print(password);
+                                  print(email);
+                                  print(phoneNumber);
+                                }
+                              },
+
+                              child: Text(
+                                "ارسال فرم",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],

@@ -6,29 +6,21 @@ import 'package:nahal_it/Screens/login_screen.dart';
 
 import 'Screens/profile_screen.dart';
 
-class Drawer_list extends StatefulWidget {
+class Drawer_list extends StatelessWidget {
   final IconData icon;
   final String text;
   final bool subset;
+  final Widget? page;
+  final VoidCallback onPressed;
 
-  final Widget page;
-
-  const Drawer_list(
-      {required this.icon,
-      required this.text,
-      required this.subset,
-      required this.page});
-
-  @override
-  State<Drawer_list> createState() => _Drawer_listState();
-}
-
-class _Drawer_listState extends State<Drawer_list> {
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
+  const Drawer_list({
+    Key? key,
+    required this.icon,
+    required this.text,
+    required this.subset,
+    required this.page,
+    required this.onPressed,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -38,18 +30,9 @@ class _Drawer_listState extends State<Drawer_list> {
       children: [
         ListTile(
           visualDensity: VisualDensity(vertical: 4),
-          onTap: () {
-            setState(
-              () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => widget.page),
-                );
-              },
-            );
-          },
+          onTap: onPressed,
           leading: Icon(
-            widget.icon,
+            icon,
             color: Color(0xff2e5c66),
             size: size.width * 0.08,
           ),
@@ -57,10 +40,10 @@ class _Drawer_listState extends State<Drawer_list> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                widget.text,
+                text,
                 style: TextStyle(fontSize: size.width * 0.05),
               ),
-              if (widget.subset)
+              if (subset)
                 Icon(
                   Icons.arrow_forward_ios_outlined,
                   color: Colors.black54,
@@ -77,6 +60,7 @@ class _Drawer_listState extends State<Drawer_list> {
     );
   }
 }
+
 
 class ExpansionList extends StatelessWidget {
   final String title;

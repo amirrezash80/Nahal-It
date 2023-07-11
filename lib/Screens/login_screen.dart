@@ -1,43 +1,53 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+
+import "package:nahal_it/Controller.dart";
 import 'package:nahal_it/Screens/Home_Screen.dart';
 import 'package:nahal_it/Screens/signup_screen.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
-class LoginPage extends StatefulWidget {
-  @override
-  State<LoginPage> createState() => _LoginPageState();
-}
 
-class _LoginPageState extends State<LoginPage> {
-  late String email_address;
-  late String password;
 
-  @override
-  void Login() async {
-    final supabase = Supabase.instance.client;
-    final AuthResponse res = await supabase.auth.signUp(
-      email: email_address,
-      password: password,
-    );
+class LoginPage extends StatelessWidget {
+  final AuthController authController = Get.find<AuthController>();
 
-    final Session? session = res.session;
-    final User? user = res.user;
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => Home_Screen(
-          title: "Nahal_it",
-          username: email_address,
-        ),
-      ),
-    );
+  void signIn() async {
+    final email = emailController.text.trim();
+    final password = passwordController.text.trim();
+
+    if (email.isNotEmpty && password.isNotEmpty) {
+      final response =
+      await authController.signIn(email: email, password: password);
+
+      if (response.user != null) {
+        // Successful sign-in
+        Get.offAll(() => Home_Screen(title: "nahal it", username: email));
+      } else {
+        // Sign-in failed
+        Get.snackbar(
+          'Error',
+          'Invalid email or password',
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+        );
+      }
+    } else {
+      // Missing email or password
+      Get.snackbar(
+        'Error',
+        'Please enter email and password',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+    }
   }
 
-  void initState() {
-    super.initState();
-  }
-
+  @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
@@ -80,8 +90,9 @@ class _LoginPageState extends State<LoginPage> {
                           Text(
                             "ورود ",
                             style: TextStyle(
-                                color: Colors.green,
-                                fontSize: size.width * 0.05),
+                              color: Colors.green,
+                              fontSize: size.width * 0.05,
+                            ),
                           ),
                         ],
                       ),
@@ -90,11 +101,12 @@ class _LoginPageState extends State<LoginPage> {
                       height: size.height * 0.03,
                     ),
                     Container(
-                        width: size.width * 0.9,
-                        child: Text(
-                          "آدرس ایمیل",
-                          textAlign: TextAlign.end,
-                        )),
+                      width: size.width * 0.9,
+                      child: Text(
+                        "آدرس ایمیل",
+                        textAlign: TextAlign.end,
+                      ),
+                    ),
                     SizedBox(
                       height: size.height * 0.015,
                     ),
@@ -108,11 +120,7 @@ class _LoginPageState extends State<LoginPage> {
                           padding: EdgeInsets.only(right: size.width * 0.02),
                           child: Center(
                             child: TextField(
-                              onChanged: (text) {
-                                setState(() {
-                                  email_address = text;
-                                });
-                              },
+                              controller: emailController,
                               decoration: InputDecoration(
                                 icon: Icon(
                                   Icons.email,
@@ -130,11 +138,12 @@ class _LoginPageState extends State<LoginPage> {
                       height: size.height * 0.015,
                     ),
                     Container(
-                        width: size.width * 0.9,
-                        child: Text(
-                          "رمز عبور",
-                          textAlign: TextAlign.end,
-                        )),
+                      width: size.width * 0.9,
+                      child: Text(
+                        "رمز عبور",
+                        textAlign: TextAlign.end,
+                      ),
+                    ),
                     SizedBox(
                       height: size.height * 0.01,
                     ),
@@ -148,11 +157,8 @@ class _LoginPageState extends State<LoginPage> {
                           padding: EdgeInsets.only(right: size.width * 0.02),
                           child: Center(
                             child: TextField(
-                              onChanged: (text) {
-                                setState(() {
-                                  password = text;
-                                });
-                              },
+                              controller: passwordController,
+                              obscureText: true,
                               decoration: InputDecoration(
                                 icon: Icon(
                                   Icons.lock,
@@ -184,19 +190,22 @@ class _LoginPageState extends State<LoginPage> {
                       width: size.width * 0.85,
                       height: size.height * 0.045,
                       child: ElevatedButton(
-                          style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all<Color>(
-                                  Colors.green),
-                              shape: MaterialStateProperty.all<
-                                      RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12.0),
-                              ))),
-                          onPressed: Login,
-                          child: Text(
-                            "ورود",
-                            style: TextStyle(color: Colors.white),
-                          )),
+                        style: ButtonStyle(
+                          backgroundColor:
+                          MaterialStateProperty.all<Color>(Colors.green),
+                          shape:
+                          MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12.0),
+                            ),
+                          ),
+                        ),
+                        onPressed: signIn,
+                        child: Text(
+                          "ورود",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
                     ),
                     SizedBox(
                       height: size.height * 0.03,
@@ -208,13 +217,7 @@ class _LoginPageState extends State<LoginPage> {
                         children: [
                           TextButton(
                             onPressed: () {
-                              setState(() {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => SignUp_Page()),
-                                );
-                              });
+                              Get.to(() => SignUp_Page());
                             },
                             child: Text(
                               "ثبت نام",
@@ -223,13 +226,8 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           TextButton(
                             onPressed: () {
-                              setState(() {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => Home_Screen(title: "نهال آی تی", username: "مهمان")),
-                                );
-                              });
+                              Get.offAll(() =>
+                                  Home_Screen(title: "نهال آی تی", username: "guest"));
                             },
                             child: Text(
                               "ورود به عنوان مهمان",

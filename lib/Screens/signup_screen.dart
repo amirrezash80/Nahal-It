@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:nahal_it/Screens/login_screen.dart';
-import 'package:nahal_it/signup_cards.dart';
+import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+
+import 'login_screen.dart';
 
 class SignUp_Page extends StatefulWidget {
   @override
@@ -9,30 +10,78 @@ class SignUp_Page extends StatefulWidget {
 }
 
 class _SignUp_PageState extends State<SignUp_Page> {
-  late String email_address;
-  late String phone_number;
-  late String password;
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController phoneNumberController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+  TextEditingController();
 
-  void updateEmailAddress(String value) {
-    email_address = value;
-  }
-
-  void updatePhoneNumber(String value) {
-    phone_number = value;
-  }
-
-  void updatePassword(String value) {
-    password = value;
-  }
-
-  Future<void> signUp() async {
+  void signUp() async {
     final supabase = Supabase.instance.client;
 
-    final response =
-        await supabase.auth.signUp(email: email_address, password: password);
+    final email = emailController.text.trim();
+    final phoneNumber = phoneNumberController.text.trim();
+    final password = passwordController.text.trim();
+    final confirmPassword = confirmPasswordController.text.trim();
 
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => LoginPage()));
+    if (email.isNotEmpty &&
+        phoneNumber.isNotEmpty &&
+        password.isNotEmpty &&
+        confirmPassword.isNotEmpty) {
+      if (password == confirmPassword) {
+        final response = await supabase.auth.signUp(email: email, password: password);
+
+        if (response.user != null) {
+          Get.to(LoginPage());
+        } else if (response.user != null) {
+          // Display error message
+          final errorMessage = "error";
+          showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+              title: Text('Sign Up Error'),
+              content: Text(errorMessage),
+              actions: [
+                ElevatedButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: Text('OK'),
+                ),
+              ],
+            ),
+          );
+        }
+      } else {
+        // Passwords do not match
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text('Sign Up Error'),
+            content: Text('Passwords do not match'),
+            actions: [
+              ElevatedButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text('OK'),
+              ),
+            ],
+          ),
+        );
+      }
+    } else {
+      // Missing fields
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text('Sign Up Error'),
+          content: Text('Please fill in all fields'),
+          actions: [
+            ElevatedButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text('OK'),
+            ),
+          ],
+        ),
+      );
+    }
   }
 
   @override
@@ -85,7 +134,7 @@ class _SignUp_PageState extends State<SignUp_Page> {
                     SignUpCards(
                       text: "آدرس ایمیل",
                       icon: Icons.email,
-                      onChanged: updateEmailAddress,
+                      controller: emailController,
                     ),
                     SizedBox(
                       height: size.height * 0.015,
@@ -93,7 +142,7 @@ class _SignUp_PageState extends State<SignUp_Page> {
                     SignUpCards(
                       text: "شماره ی موبایل",
                       icon: Icons.phone,
-                      onChanged: updatePhoneNumber,
+                      controller: phoneNumberController,
                     ),
                     SizedBox(
                       height: size.height * 0.01,
@@ -101,7 +150,8 @@ class _SignUp_PageState extends State<SignUp_Page> {
                     SignUpCards(
                       text: "رمز عبور",
                       icon: Icons.lock,
-                      onChanged: updatePassword,
+                      controller: passwordController,
+                      obscureText: true,
                     ),
                     SizedBox(
                       height: size.height * 0.01,
@@ -109,7 +159,8 @@ class _SignUp_PageState extends State<SignUp_Page> {
                     SignUpCards(
                       text: "تکرار رمز عبور",
                       icon: Icons.lock,
-                      onChanged: updatePassword,
+                      controller: confirmPasswordController,
+                      obscureText: true,
                     ),
                     SizedBox(
                       height: size.height * 0.02,
@@ -120,25 +171,64 @@ class _SignUp_PageState extends State<SignUp_Page> {
                       child: ElevatedButton(
                         style: ButtonStyle(
                           backgroundColor:
-                              MaterialStateProperty.all<Color>(Colors.green),
+                          MaterialStateProperty.all<Color>(Colors.green),
                           shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                          MaterialStateProperty.all<RoundedRectangleBorder>(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12.0),
                             ),
                           ),
                         ),
                         onPressed: signUp,
-                        // Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
-
-                        child: Text("ثبت نام",
-                            style: TextStyle(fontSize: size.width * 0.05)),
+                        child: Text(
+                          "ثبت نام",
+                          style: TextStyle(fontSize: size.width * 0.05),
+                        ),
                       ),
                     ),
                   ],
                 ),
               ),
             ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class SignUpCards extends StatelessWidget {
+  final String text;
+  final IconData icon;
+  final TextEditingController controller;
+  final bool obscureText;
+
+  const SignUpCards({
+    required this.text,
+    required this.icon,
+    required this.controller,
+    this.obscureText = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.white,
+      height: 50,
+      width: MediaQuery.of(context).size.width * 0.85,
+      child: Directionality(
+        textDirection: TextDirection.rtl,
+        child: Padding(
+          padding: EdgeInsets.only(right: 15),
+          child: TextField(
+            controller: controller,
+            obscureText: obscureText,
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              labelText: text,
+              labelStyle: TextStyle(color: Colors.grey.shade600),
+              prefixIcon: Icon(icon, color: Colors.green),
+            ),
           ),
         ),
       ),

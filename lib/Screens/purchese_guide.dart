@@ -58,11 +58,11 @@ class Purchase_guide extends StatelessWidget {
                       "سپس با مراجعه به این صفحه ثبت سفارش را به صورت رسمی انجام دهید ."
                       "لازم به ذکر است شما می توانید پرداخت بهای انجام پروژه را به صورت قسطی نیز پرداخت نمایید."),
                 ),
-                Estekhdam_Cards(text: "نام"),
-                Estekhdam_Cards(text: "شماره"),
-                Estekhdam_Cards(text: "ایمیل"),
-                Estekhdam_Cards(text: "سفارش پروژه"),
-                Estekhdam_Cards(text: "توضیحات"),
+                EstekhdamCards(text: "نام"),
+                EstekhdamCards(text: "شماره"),
+                EstekhdamCards(text: "ایمیل"),
+                EstekhdamCards(text: "سفارش پروژه"),
+                EstekhdamCards(text: "توضیحات"),
                 Text("در صورت نیاز به آپلود فایل آپلود کنید"),
                 ElevatedButton(
                   style: ButtonStyle(

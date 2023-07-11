@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
-class Estekhdam_Cards extends StatelessWidget {
+class EstekhdamCards extends StatelessWidget {
   final String text;
+  final void Function(String?)? onSaved; // Updated type
 
-  const Estekhdam_Cards({super.key, required this.text});
+  const EstekhdamCards({Key? key, required this.text, this.onSaved})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -11,11 +13,12 @@ class Estekhdam_Cards extends StatelessWidget {
 
     return Padding(
       padding: EdgeInsets.all(size.height * 0.02),
-      child: TextField(
+      child: TextFormField(
         decoration: InputDecoration(
           border: OutlineInputBorder(),
-          hintText: text,
+          labelText: text,
         ),
+        onSaved: onSaved, // Pass the updated onSaved callback
       ),
     );
   }

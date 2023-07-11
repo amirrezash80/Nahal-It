@@ -13,6 +13,7 @@ class _StorePageState extends State<StorePage> {
   final cartController = Get.find<CartController>();
   final fetchproductController = Get.find<fetchproduct>();
   final textFilter = Get.find<SearchController>();
+  TextEditingController searchController = TextEditingController();
 
   List<dynamic> filteredProducts = [];
 
@@ -86,9 +87,9 @@ class _StorePageState extends State<StorePage> {
                         crossAxisSpacing: 10.0,
                         mainAxisSpacing: 10.0,
                       ),
-                      itemCount: filteredProducts.length,
+                      itemCount: filteredProducts.length-1,
                       itemBuilder: (context, index) {
-                        var post = filteredProducts[index];
+                        var post = filteredProducts[index+1];
                         var yoastHeadJson = post['yoast_head_json'];
                         var ogImage = yoastHeadJson != null
                             ? yoastHeadJson['og_image']

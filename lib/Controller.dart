@@ -1,4 +1,7 @@
 import 'package:get/get.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:supabase/supabase.dart';
 
 class Product {
   final String content;
@@ -114,3 +117,52 @@ class ProfileController extends GetxController {
     isEditingName.value = !isEditingName.value;
   }
 }
+
+
+
+class AuthController extends GetxController {
+  late final SupabaseClient supabaseClient;
+  final storage = GetStorage();
+
+  String? get username => storage.read('username');
+
+  @override
+  void onInit() {
+    supabaseClient = Supabase.instance.client;
+    super.onInit();
+  }
+
+
+  Future<AuthResponse> signIn({required String email, required String password}) async {
+    final response = await supabaseClient.auth.signInWithPassword(
+      email: email,
+      password: password,
+    );
+
+    if (response.user != null) {
+      storage.write('username', email);
+    }
+
+    return response;
+  }
+
+  Future<AuthResponse> signUp({required String email, required String password}) async {
+    final response = await supabaseClient.auth.signUp(
+      email: email,
+      password: password,
+    );
+
+    if (response.user != null) {
+      storage.write('username', email);
+    }
+
+    return response;
+  }
+
+  Future<void> signOut() async {
+    await supabaseClient.auth.signOut();
+    storage.remove('username');
+  }
+}
+
+

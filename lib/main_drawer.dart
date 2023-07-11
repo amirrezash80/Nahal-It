@@ -10,17 +10,25 @@ import 'package:nahal_it/Screens/login_screen.dart';
 import 'package:nahal_it/Screens/purchese_guide.dart';
 import 'package:nahal_it/drawer_list.dart';
 import 'package:nahal_it/gradient.dart';
+import 'Controller.dart';
 import 'Screens/Product_Screen.dart';
 import 'package:get/get.dart';
+
+import 'package:flutter/material.dart';
+import 'package:nahal_it/Screens/Home_Screen.dart';
+import 'package:nahal_it/Screens/login_screen.dart';
 
 class MainDrawer extends StatelessWidget {
   final String username;
 
-  const MainDrawer({super.key, required this.username});
+  const MainDrawer({Key? key, required this.username}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+
+    bool isGuest = (username == 'guest');
+    String buttonText = isGuest ? 'ورود و عضویت' : 'خروج';
 
     return Stack(
       children: [
@@ -35,9 +43,8 @@ class MainDrawer extends StatelessWidget {
                     color: Colors.white,
                     child: Padding(
                       padding:
-                          EdgeInsets.only(top: 50.0, left: 20.0, right: 20.0),
+                      EdgeInsets.only(top: 50.0, left: 20.0, right: 20.0),
                       child: Column(
-                        // mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           Image(
@@ -51,92 +58,62 @@ class MainDrawer extends StatelessWidget {
                   SizedBox(
                     height: 20.0,
                   ),
-                  Container(
-                    child: Text("خوش آمدید $username"),
-                  ),
+
                   Container(
                     height: size.height,
                     child: Wrap(
                       children: [
                         Drawer_list(
                           icon: Icons.person,
-                          text: " ورود و عضویت",
+                          text: buttonText,
                           subset: false,
-                          page: LoginPage(),
+                          page: isGuest ? LoginPage() : null,
+                          onPressed: () {
+                            // Handle login/logout
+                            if (isGuest) {
+                              Get.to(LoginPage());
+                            } else {
+                              final AuthController authController = Get.find<AuthController>();
+                              authController.signOut();
+                              Get.offAll(() => Home_Screen(title: 'nahal it', username: 'guest'));
+                            }
+                          },
                         ),
                         Drawer_list(
-                            icon: Icons.home,
-                            text: "صفحه اصلی",
-                            subset: false,
-                            page: Home_Screen(
-                              title: 'Nahal-it',
-                              username: username,
-                            )),
-                        ExpansionList(
+                          icon: Icons.home,
+                          text: "صفحه اصلی",
+                          subset: false,
+                          page: Home_Screen(title: 'Nahal-it', username: username),
+                          onPressed: () {
+                            // Handle navigation to home screen
+                            Get.to(Home_Screen(title: 'Nahal-it', username: username));
+                          },
+                        ),
+                        Drawer_list(
                           icon: Icons.shopping_bag_rounded,
-                          title: " محصولات",
-                          children: [
-                            ListTile(
-                              title: Text('سایت های آماده'),
-                              onTap: () {
-                                // action on press
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (builder) => StorePage()));
-                              },
-                            ),
-                            ListTile(
-                              title: Text('پلاگین وردپرس'),
-                              onTap: () {
-                                // action on press
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (builder) => StorePage()));
-                              },
-                            ),
-                            ListTile(
-                                title: Text('قالب HTML'),
-                                onTap: () {
-                                  // action on press
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (builder) => StorePage()));
-                                }),
-                            ListTile(
-                              title: Text('اپلیکیشن موبایل'),
-                              onTap: () {
-                                // action on press
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (builder) => StorePage()));
-                              },
-                            ),
-                            ListTile(
-                              title: Text('اسکریپت ها'),
-                              onTap: () {
-                                // action on press
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (builder) => StorePage()));
-                              },
-                            ),
-                          ],
+                          text: "محصولات",
+                          subset: false,
+                          page: StorePage(),
+                          onPressed: () {
+                            // Handle navigation to store page
+                            Get.to(StorePage());
+                          },
                         ),
                         Drawer_list(
-                            icon: Icons.shopping_cart_checkout_rounded,
-                            text: "راهنمای خرید",
-                            subset: false,
-                            page: Purchase_guide()),
+                          icon: Icons.shopping_cart_checkout_rounded,
+                          text: "راهنمای خرید",
+                          subset: false,
+                          page: Purchase_guide(), onPressed: () {
+                            Get.to(Purchase_guide());
+                        },
+                        ),
                         Drawer_list(
                           icon: Icons.receipt_long_rounded,
                           text: "بلاگ",
                           subset: false,
-                          page: BlogScreen(),
+                          page: BlogScreen(), onPressed: () {
+                            Get.to(BlogScreen());
+                        },
                         ),
                         ExpansionList(
                           icon: Icons.stacked_line_chart_rounded,
@@ -190,8 +167,7 @@ class MainDrawer extends StatelessWidget {
                                 // action on press
                                 Navigator.push(
                                   context,
-                                  MaterialPageRoute(
-                                      builder: (context) => Contact_us()),
+                                  MaterialPageRoute(builder: (context) => ContactUs()),
                                 );
                               },
                             ),
@@ -200,8 +176,7 @@ class MainDrawer extends StatelessWidget {
                               onTap: () {
                                 Navigator.push(
                                   context,
-                                  MaterialPageRoute(
-                                      builder: (context) => About_Us()),
+                                  MaterialPageRoute(builder: (context) => About_Us()),
                                 );
                               },
                             ),
@@ -210,8 +185,7 @@ class MainDrawer extends StatelessWidget {
                               onTap: () {
                                 Navigator.push(
                                   context,
-                                  MaterialPageRoute(
-                                      builder: (context) => AboutNahal()),
+                                  MaterialPageRoute(builder: (context) => AboutNahal()),
                                 );
                               },
                             ),
@@ -221,7 +195,9 @@ class MainDrawer extends StatelessWidget {
                           icon: Icons.work_sharp,
                           text: "استخدام",
                           subset: false,
-                          page: Estekhdam(),
+                          page: Estekhdam(), onPressed: () {
+                            Get.to(Estekhdam());
+                        },
                         ),
                       ],
                     ),
