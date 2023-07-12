@@ -70,6 +70,7 @@ class _StorePageState extends State<StorePage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        centerTitle: true,
         backgroundColor: Colors.green,
         title: Text('محصولات'),
       ),
@@ -83,13 +84,13 @@ class _StorePageState extends State<StorePage> {
                       padding: EdgeInsets.all(10.0),
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
-                        childAspectRatio: 0.8,
+                        childAspectRatio: 0.7,
                         crossAxisSpacing: 10.0,
-                        mainAxisSpacing: 10.0,
+                        mainAxisSpacing: 20.0,
                       ),
-                      itemCount: filteredProducts.length-1,
+                      itemCount: filteredProducts.length - 1,
                       itemBuilder: (context, index) {
-                        var post = filteredProducts[index+1];
+                        var post = filteredProducts[index + 1];
                         var yoastHeadJson = post['yoast_head_json'];
                         var ogImage = yoastHeadJson != null
                             ? yoastHeadJson['og_image']
@@ -140,13 +141,6 @@ class _StorePageState extends State<StorePage> {
                                         style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 18,
-                                        ),
-                                      ),
-                                      SizedBox(height: 8),
-                                      Text(
-                                        'Tap to view details',
-                                        style: TextStyle(
-                                          color: Colors.grey,
                                         ),
                                       ),
                                     ],

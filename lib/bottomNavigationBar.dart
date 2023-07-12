@@ -1,10 +1,11 @@
+import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:nahal_it/Screens/Home_Screen.dart';
 import 'package:nahal_it/Screens/blog_screen.dart';
 import 'package:nahal_it/Screens/cart_screen.dart';
 import 'package:nahal_it/Screens/profile_screen.dart';
+
 import 'Controller.dart';
 import 'Screens/categories_screen.dart';
 
@@ -29,9 +30,7 @@ class Convex extends StatelessWidget {
         break;
       case 2:
         {
-          Get.offAll(
-              () => Home_Screen(title: "نهال آی تی", username: "username"),
-              arguments: index);
+          Get.offAll(() => Home_Screen(), arguments: index);
         }
         break;
       case 3:

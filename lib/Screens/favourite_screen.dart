@@ -16,9 +16,7 @@ class Favourite_Screen extends StatelessWidget {
         drawer: Drawer(
           child: Container(
             color: Colors.white54,
-            child: MainDrawer(
-              username: "username",
-            ),
+            child: MainDrawer(),
           ),
         ),
         appBar: AppBar(
@@ -29,7 +27,7 @@ class Favourite_Screen extends StatelessWidget {
         body: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Obx(
-                () => ListView.builder(
+            () => ListView.builder(
               itemCount: favouriteController.cartItems.length,
               itemBuilder: (context, index) {
                 Product product = favouriteController.cartItems[index];
@@ -38,57 +36,65 @@ class Favourite_Screen extends StatelessWidget {
                   child: GestureDetector(
                     onTap: () {
                       Get.to(() => ProductContentScreen(
-                        content: product.content,
-                        imageUrl: product.imageUrl,
-                        title: product.title,
-                      ));
+                            content: product.content,
+                            imageUrl: product.imageUrl,
+                            title: product.title,
+                          ));
                     },
                     child: Container(
-                      height: size.height * 0.1,
-                      child: Card(
-                        elevation: 4,
-                        child: Row(
-                          children: [
-                            Container(
-                              width: size.width * 0.3,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                image: DecorationImage(
-                                  image: NetworkImage(product.imageUrl),
-                                  fit: BoxFit.cover,
+                      margin: EdgeInsets.only(bottom: 16.0),
+                      padding: EdgeInsets.all(16.0),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8.0),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.3),
+                            spreadRadius: 2,
+                            blurRadius: 5,
+                            offset: Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      child: Row(
+                        children: [
+                          Container(
+                            width: size.width * 0.3,
+                            height: size.height * 0.15,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              image: DecorationImage(
+                                image: NetworkImage(product.imageUrl),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 16.0),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  product.title,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18.0,
+                                  ),
                                 ),
-                              ),
+                              ],
                             ),
-                            SizedBox(width: 10),
-                            Expanded(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    product.title,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  SizedBox(height: 4),
-                                  Text(
-                                    'Tap to view details',
-                                    style: TextStyle(
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                ],
-                              ),
+                          ),
+                          IconButton(
+                            icon: Icon(
+                              Icons.playlist_remove_outlined,
+                              size: 34,
                             ),
-                            IconButton(
-                              icon: Icon(Icons.playlist_remove_outlined),
-                              onPressed: () {
-                                favouriteController.removeFromCart(product);
-                              },
-                            ),
-                          ],
-                        ),
+                            color: Colors.red,
+                            onPressed: () {
+                              favouriteController.removeFromCart(product);
+                            },
+                          ),
+                        ],
                       ),
                     ),
                   ),

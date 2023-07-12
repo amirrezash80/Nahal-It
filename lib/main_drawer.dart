@@ -19,16 +19,13 @@ import 'package:nahal_it/Screens/Home_Screen.dart';
 import 'package:nahal_it/Screens/login_screen.dart';
 
 class MainDrawer extends StatelessWidget {
-  final String username;
-
-  const MainDrawer({Key? key, required this.username}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-
-    bool isGuest = (username == 'guest');
-    String buttonText = isGuest ? 'ورود و عضویت' : 'خروج';
+    final user username = Get.find<user>();
+    bool isGuest = (username.username == 'guest');
+    String buttonText = isGuest ? 'ورود و عضویت' : 'خروج از حساب';
 
     return Stack(
       children: [
@@ -73,9 +70,10 @@ class MainDrawer extends StatelessWidget {
                             if (isGuest) {
                               Get.to(LoginPage());
                             } else {
+                              username.username = 'guest';
                               final AuthController authController = Get.find<AuthController>();
                               authController.signOut();
-                              Get.offAll(() => Home_Screen(title: 'nahal it', username: 'guest'));
+                              Get.offAll(() => Home_Screen());
                             }
                           },
                         ),
@@ -83,10 +81,10 @@ class MainDrawer extends StatelessWidget {
                           icon: Icons.home,
                           text: "صفحه اصلی",
                           subset: false,
-                          page: Home_Screen(title: 'Nahal-it', username: username),
+                          page: Home_Screen(),
                           onPressed: () {
                             // Handle navigation to home screen
-                            Get.to(Home_Screen(title: 'Nahal-it', username: username));
+                            Get.to(Home_Screen());
                           },
                         ),
                         Drawer_list(
@@ -177,15 +175,6 @@ class MainDrawer extends StatelessWidget {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(builder: (context) => About_Us()),
-                                );
-                              },
-                            ),
-                            ListTile(
-                              title: Text('درباره نهال'),
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => AboutNahal()),
                                 );
                               },
                             ),

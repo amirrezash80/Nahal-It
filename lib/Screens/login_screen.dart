@@ -1,48 +1,62 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
-
 import "package:nahal_it/Controller.dart";
 import 'package:nahal_it/Screens/Home_Screen.dart';
 import 'package:nahal_it/Screens/signup_screen.dart';
 
+class LoginPage extends StatefulWidget {
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
 
-
-class LoginPage extends StatelessWidget {
+class _LoginPageState extends State<LoginPage> {
   final AuthController authController = Get.find<AuthController>();
-
+  final user username = Get.find<user>();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+
+  final RxBool isLoading = false.obs;
+  bool isPasswordVisible = false;
 
   void signIn() async {
     final email = emailController.text.trim();
     final password = passwordController.text.trim();
 
     if (email.isNotEmpty && password.isNotEmpty) {
-      final response =
-      await authController.signIn(email: email, password: password);
+      isLoading.value = true;
 
-      if (response.user != null) {
-        // Successful sign-in
-        Get.offAll(() => Home_Screen(title: "nahal it", username: email));
-      } else {
-        // Sign-in failed
-        Get.snackbar(
-          'Error',
-          'Invalid email or password',
+      try {
+        final response =
+            await authController.signIn(email: email, password: password);
+
+        if (response.user != null) {
+          // Successful sign-in
+          username.username = email;
+          Get.offAll(() => Home_Screen());
+        } else {
+          // Sign-in failed
+          Get.rawSnackbar(
+            message: 'Invalid email or password',
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: Colors.red,
+          );
+        }
+      } catch (e) {
+        // Exception occurred during sign-in
+        Get.rawSnackbar(
+          message: 'Error occurred: ${e.toString()}',
           snackPosition: SnackPosition.BOTTOM,
           backgroundColor: Colors.red,
-          colorText: Colors.white,
         );
+      } finally {
+        isLoading.value = false;
       }
     } else {
       // Missing email or password
-      Get.snackbar(
-        'Error',
-        'Please enter email and password',
+      Get.rawSnackbar(
+        message: 'Please enter email and password',
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: Colors.red,
-        colorText: Colors.white,
       );
     }
   }
@@ -158,7 +172,7 @@ class LoginPage extends StatelessWidget {
                           child: Center(
                             child: TextField(
                               controller: passwordController,
-                              obscureText: true,
+                              obscureText: !isPasswordVisible,
                               decoration: InputDecoration(
                                 icon: Icon(
                                   Icons.lock,
@@ -166,6 +180,19 @@ class LoginPage extends StatelessWidget {
                                 ),
                                 border: InputBorder.none,
                                 hintText: 'رمز عبور',
+                                suffixIcon: IconButton(
+                                  icon: Icon(
+                                    isPasswordVisible
+                                        ? Icons.visibility
+                                        : Icons.visibility_off,
+                                    color: Colors.green,
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      isPasswordVisible = !isPasswordVisible;
+                                    });
+                                  },
+                                ),
                               ),
                             ),
                           ),
@@ -189,21 +216,28 @@ class LoginPage extends StatelessWidget {
                     Container(
                       width: size.width * 0.85,
                       height: size.height * 0.045,
-                      child: ElevatedButton(
-                        style: ButtonStyle(
-                          backgroundColor:
-                          MaterialStateProperty.all<Color>(Colors.green),
-                          shape:
-                          MaterialStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12.0),
+                      child: Obx(
+                        () => ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all<Color>(Colors.green),
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12.0),
+                              ),
                             ),
                           ),
-                        ),
-                        onPressed: signIn,
-                        child: Text(
-                          "ورود",
-                          style: TextStyle(color: Colors.white),
+                          onPressed: isLoading.value ? null : signIn,
+                          child: isLoading.value
+                              ? CircularProgressIndicator(
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                      Colors.white),
+                                )
+                              : Text(
+                                  "ورود",
+                                  style: TextStyle(color: Colors.white),
+                                ),
                         ),
                       ),
                     ),
@@ -226,8 +260,8 @@ class LoginPage extends StatelessWidget {
                           ),
                           TextButton(
                             onPressed: () {
-                              Get.offAll(() =>
-                                  Home_Screen(title: "نهال آی تی", username: "guest"));
+                              username.username = "guest";
+                              Get.offAll(() => Home_Screen());
                             },
                             child: Text(
                               "ورود به عنوان مهمان",

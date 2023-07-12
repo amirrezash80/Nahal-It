@@ -48,19 +48,40 @@ class _EstekhdamState extends State<Estekhdam> {
     String? email,
     String? phoneNumber,
   }) async {
-    final supabase = SupabaseClient('https://forkbdelcxmfvvpocxjr.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZvcmtiZGVsY3htZnZ2cG9jeGpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODI5NDA0MTEsImV4cCI6MTk5ODUxNjQxMX0.t-gl6lFjcxE_iv8jAj54SvzviAXoUVicuYRp1rxXDlE');
+    try {
+      final supabase = SupabaseClient(
+          'https://forkbdelcxmfvvpocxjr.supabase.co',
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZvcmtiZGVsY3htZnZ2cG9jeGpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODI5NDA0MTEsImV4cCI6MTk5ODUxNjQxMX0.t-gl6lFjcxE_iv8jAj54SvzviAXoUVicuYRp1rxXDlE');
 
-    final response = await supabase
-        .from('Estekhdam')
-        .insert({
-      'SSN': nationalCode,
-      'name':name,
-      'password': password,
-      'job_position': jobPosition,
-      'email': email,
-      'phone_number': phoneNumber,
-    })
-        .execute();
+      final response = await supabase.from('Estekhdam').insert({
+        'SSN': nationalCode,
+        'name': name,
+        'password': password,
+        'job_position': jobPosition,
+        'email': email,
+        'phone_number': phoneNumber,
+      }).execute();
+
+      if (response.status == 201) {
+        showSnackbar('اطلاعات شما با موفقیت ارسال شد');
+      } else {
+        showSnackbar('خطا در ارسال اطلاعات');
+      }
+    } catch (error) {
+      showSnackbar('خطا در ارسال اطلاعات');
+      print(error);
+    }
+  }
+
+  void showSnackbar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          message,
+          style: TextStyle(fontSize: 16.0),
+        ),
+      ),
+    );
   }
 
   @override
@@ -164,7 +185,7 @@ class _EstekhdamState extends State<Estekhdam> {
                                 });
                               },
                               items: items.map<DropdownMenuItem<String>>(
-                                    (String value) {
+                                (String value) {
                                   return DropdownMenuItem<String>(
                                     value: value,
                                     child: Text(value),
@@ -205,7 +226,9 @@ class _EstekhdamState extends State<Estekhdam> {
                           Center(
                             child: ElevatedButton(
                               style: ButtonStyle(
-                                backgroundColor: MaterialStatePropertyAll<Color>(Colors.green),
+                                backgroundColor:
+                                    MaterialStatePropertyAll<Color>(
+                                        Colors.green),
                                 shape: MaterialStatePropertyAll<
                                     RoundedRectangleBorder>(
                                   RoundedRectangleBorder(
@@ -218,20 +241,14 @@ class _EstekhdamState extends State<Estekhdam> {
                                   _formKey.currentState!.save();
                                   insertData(
                                     nationalCode: nationalCode,
-                                    name : name,
+                                    name: name,
                                     password: password,
                                     jobPosition: jobPosition,
                                     email: email,
                                     phoneNumber: phoneNumber,
                                   );
-                                  print(nationalCode);
-                                  print(jobPosition);
-                                  print(password);
-                                  print(email);
-                                  print(phoneNumber);
                                 }
                               },
-
                               child: Text(
                                 "ارسال فرم",
                                 style: TextStyle(color: Colors.white),

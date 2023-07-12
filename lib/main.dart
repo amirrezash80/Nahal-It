@@ -21,7 +21,8 @@ void main() async {
   Get.put(ProfileController());
   Get.put(SearchController());
   Get.put(AuthController());
-
+  Get.put(mySliderContent());
+  Get.put(user());
   runApp(const MyApp());
 }
 

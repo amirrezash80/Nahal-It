@@ -278,7 +278,7 @@ class _ProductContentScreenState extends State<ProductContentScreen> {
                   ScaffoldMessenger.of(context).showSnackBar(snackBar);
                 },
                 child: Text(
-                  "اضافه به سبد خرید",
+                  "افزودن به سبد خرید",
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,

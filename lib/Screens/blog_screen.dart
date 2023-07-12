@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:nahal_it/bottomNavigationBar.dart';
-import '../fetch_data.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:get/get.dart';
+import 'package:nahal_it/bottomNavigationBar.dart';
+import 'package:url_launcher/url_launcher.dart';
 
+import '../fetch_data.dart';
 import '../main_drawer.dart';
 
 class BlogController extends GetxController {
@@ -50,14 +50,11 @@ class BlogScreen extends StatelessWidget {
       child: Scaffold(
         backgroundColor: Colors.white,
         drawer: Drawer(
-          child: Container(
-              color: Colors.white54,
-              child: MainDrawer(
-                username: "username",
-              )),
+          child: Container(color: Colors.white54, child: MainDrawer()),
         ),
         appBar: AppBar(
           backgroundColor: Colors.green,
+          centerTitle: true,
           title: Text('بلاگ'),
         ),
         body: Padding(
@@ -79,7 +76,8 @@ class BlogScreen extends StatelessWidget {
                         var ogImage = yoastHeadJson != null
                             ? yoastHeadJson['og_image']
                             : null;
-                        var imageUrl = ogImage != null ? ogImage[0]['url'] : null;
+                        var imageUrl =
+                            ogImage != null ? ogImage[0]['url'] : null;
 
                         return ListTile(
                           title: Column(
@@ -117,8 +115,9 @@ class BlogScreen extends StatelessWidget {
                                           MaterialPageRoute(
                                             builder: (context) =>
                                                 BlogContentScreen(
-                                              content: blogController.posts[index]
-                                                  ["content"]["rendered"],
+                                              content:
+                                                  blogController.posts[index]
+                                                      ["content"]["rendered"],
                                               imageUrl: imageUrl ?? '',
                                               title: post['title']['rendered'],
                                             ),

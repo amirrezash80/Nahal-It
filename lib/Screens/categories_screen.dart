@@ -38,12 +38,11 @@ class Categories_Screen extends StatelessWidget {
         drawer: Drawer(
           child: Container(
             color: Colors.white54,
-            child: MainDrawer(
-              username: "username",
-            ),
+            child: MainDrawer(),
           ),
         ),
         appBar: AppBar(
+          centerTitle: true,
           backgroundColor: Colors.green,
           title: Text("دسته بندی ها"),
         ),

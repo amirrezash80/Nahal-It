@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
+import 'package:get/get.dart';
 import 'package:nahal_it/bottomNavigationBar.dart';
 import 'package:nahal_it/fetch_catagories.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:get/get.dart';
 
 class NewsController extends GetxController {
   final posts = <dynamic>[].obs;
@@ -37,8 +37,6 @@ class NewsController extends GetxController {
   }
 }
 
-
-
 class NewsScreen extends StatelessWidget {
   final NewsController blogController = Get.put(NewsController());
 
@@ -48,6 +46,7 @@ class NewsScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        centerTitle: true,
         backgroundColor: Colors.green,
         title: Text('اخبار'),
       ),
@@ -56,86 +55,87 @@ class NewsScreen extends StatelessWidget {
         child: Directionality(
           textDirection: TextDirection.rtl,
           child: Obx(
-                () => blogController.isLoading.value
+            () => blogController.isLoading.value
                 ? Center(
-              child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
-              ),
-            )
+                    child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
+                    ),
+                  )
                 : ListView.builder(
-              itemCount: blogController.posts.length,
-              itemBuilder: (context, index) {
-                var post = blogController.posts[index];
-                var yoastHeadJson = post['yoast_head_json'];
-                var ogImage =
-                yoastHeadJson != null ? yoastHeadJson['og_image'] : null;
-                var imageUrl = ogImage != null ? ogImage[0]['url'] : null;
+                    itemCount: blogController.posts.length,
+                    itemBuilder: (context, index) {
+                      var post = blogController.posts[index];
+                      var yoastHeadJson = post['yoast_head_json'];
+                      var ogImage = yoastHeadJson != null
+                          ? yoastHeadJson['og_image']
+                          : null;
+                      var imageUrl = ogImage != null ? ogImage[0]['url'] : null;
 
-                return ListTile(
-                  title: Column(
-                    children: [
-                      imageUrl != null
-                          ? Container(
-                        width: size.width,
-                        height: size.height * 0.4,
-                        child: Image.network(
-                          imageUrl,
-                          width: size.width,
-                          height: size.height * 0.4,
-                          fit: BoxFit.fill,
-                        ),
-                      )
-                          : Container(),
-                      SizedBox(height: size.height * 0.01),
-                      Text(post['title']['rendered']),
-                      SizedBox(height: size.height * 0.01),
-                      Container(
-                        height: size.height * 0.05,
-                        color: Colors.green,
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
+                      return ListTile(
+                        title: Column(
                           children: [
-                            Icon(
-                              Icons.more_rounded,
-                              color: Colors.white,
-                            ),
-                            TextButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => BlogContentScreen(
-                                      content:
-                                      blogController.posts[index]["content"]["rendered"],
-                                      imageUrl: imageUrl ?? '',
-                                      title: post['title']['rendered'],
+                            imageUrl != null
+                                ? Container(
+                                    width: size.width,
+                                    height: size.height * 0.4,
+                                    child: Image.network(
+                                      imageUrl,
+                                      width: size.width,
+                                      height: size.height * 0.4,
+                                      fit: BoxFit.fill,
                                     ),
-                                  ),
-                                );
-                              },
-                              child: Text(
-                                "   توضیحات  بیشتر ",
-                                style: TextStyle(
+                                  )
+                                : Container(),
+                            SizedBox(height: size.height * 0.01),
+                            Text(post['title']['rendered']),
+                            SizedBox(height: size.height * 0.01),
+                            Container(
+                              height: size.height * 0.05,
+                              color: Colors.green,
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.more_rounded,
                                     color: Colors.white,
-                                    fontWeight: FontWeight.bold),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              BlogContentScreen(
+                                            content: blogController.posts[index]
+                                                ["content"]["rendered"],
+                                            imageUrl: imageUrl ?? '',
+                                            title: post['title']['rendered'],
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    child: Text(
+                                      "   توضیحات  بیشتر ",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  )
+                                ],
                               ),
+                            ),
+                            SizedBox(
+                              height: size.height * 0.1,
                             )
                           ],
                         ),
-                      ),
-                      SizedBox(
-                        height: size.height * 0.1,
-                      )
-                    ],
+                      );
+                    },
                   ),
-                );
-              },
-            ),
           ),
         ),
       ),
-
       bottomNavigationBar: Convex(),
     );
   }
@@ -168,9 +168,9 @@ class BlogContentScreen extends StatelessWidget {
               children: [
                 imageUrl.isNotEmpty
                     ? Image.network(
-                  imageUrl,
-                  fit: BoxFit.fill,
-                )
+                        imageUrl,
+                        fit: BoxFit.fill,
+                      )
                     : Container(), // Display the image if imageUrl is not empty
                 Html(
                   data: content,
@@ -209,8 +209,7 @@ class BlogContentScreen extends StatelessWidget {
                     ),
                     "img": Style(
                         width: Width(size.width),
-                        padding: HtmlPaddings.only(right: 20)
-                    ),
+                        padding: HtmlPaddings.only(right: 20)),
                   },
                 )
               ],

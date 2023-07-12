@@ -18,6 +18,7 @@ class Purchase_guide extends StatelessWidget {
     var size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text("راهنمای خرید"),
         backgroundColor: Colors.green,
       ),
@@ -66,8 +67,7 @@ class Purchase_guide extends StatelessWidget {
                 Text("در صورت نیاز به آپلود فایل آپلود کنید"),
                 ElevatedButton(
                   style: ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll(Colors.grey)
-                  ),
+                      backgroundColor: MaterialStatePropertyAll(Colors.grey)),
                   onPressed: () {
                     _pickFile();
                   },
@@ -90,7 +90,8 @@ class Purchase_guide extends StatelessWidget {
                     // Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
                     child: Text(
                       "ارسال",
-                      style: TextStyle(fontSize: size.width * 0.05 ,color: Colors.white),
+                      style: TextStyle(
+                          fontSize: size.width * 0.05, color: Colors.white),
                     ),
                   ),
                 ),

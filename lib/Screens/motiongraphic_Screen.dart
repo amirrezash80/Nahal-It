@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nahal_it/Screens/purchese_guide.dart';
+
 import '../constants.dart';
 
 class MotionScreen extends StatelessWidget {

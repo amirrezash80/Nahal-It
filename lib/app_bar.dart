@@ -5,12 +5,25 @@ import 'package:nahal_it/Screens/favourite_screen.dart';
 
 import 'Controller.dart';
 
-class MyAppBar extends StatelessWidget {
+class MyAppBar extends StatefulWidget {
+  @override
+  _MyAppBarState createState() => _MyAppBarState();
+}
+
+class _MyAppBarState extends State<MyAppBar> {
+  var size;
+  TextEditingController searchController = TextEditingController();
+  var textFilter = Get.find<SearchController>();
+
+  @override
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
-    TextEditingController searchController = TextEditingController();
-    var textFilter = Get.find<SearchController>();
+    size = MediaQuery.of(context).size;
 
     return Directionality(
       textDirection: TextDirection.ltr,
@@ -32,7 +45,12 @@ class MyAppBar extends StatelessWidget {
                           color: Color(0xff2e5c66),
                           iconSize: size.width * 0.09,
                           onPressed: () {
-                            Get.to(Favourite_Screen());
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => Favourite_Screen(),
+                              ),
+                            );
                           },
                         )
                       ],
@@ -49,24 +67,29 @@ class MyAppBar extends StatelessWidget {
                       child: TextField(
                         controller: searchController,
                         cursorColor: Colors.lightGreen,
+                        onSubmitted: (_) {
+                          textFilter.isFilterd = true;
+                          textFilter.textFilter = searchController.text;
+                          Get.to(StorePage());
+                        },
                         decoration: InputDecoration(
-                            // border: InputBorder.none,
-                            hintText: 'جست و جو',
-                            hintStyle: TextStyle(
+                          hintText: 'جست و جو',
+                          hintStyle: TextStyle(
+                            color: Color(0xff2e5c66),
+                          ),
+                          prefixIcon: GestureDetector(
+                            onTap: () {
+                              textFilter.isFilterd = true;
+                              textFilter.textFilter = searchController.text;
+                              Get.to(StorePage());
+                            },
+                            child: Icon(
+                              Icons.search,
                               color: Color(0xff2e5c66),
+                              size: size.width * 0.08,
                             ),
-                            prefixIcon: GestureDetector(
-                              onTap: () {
-                                textFilter.isFilterd = true;
-                                textFilter.textFilter = searchController.text;
-                                Get.to(StorePage());
-                              },
-                              child: Icon(
-                                Icons.search,
-                                color: Color(0xff2e5c66),
-                                size: size.width * 0.08,
-                              ),
-                            )),
+                          ),
+                        ),
                       ),
                     ),
                   ),

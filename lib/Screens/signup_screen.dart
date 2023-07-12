@@ -16,6 +16,8 @@ class _SignUp_PageState extends State<SignUp_Page> {
   final TextEditingController confirmPasswordController =
   TextEditingController();
 
+  bool isLoading = false; // Add isLoading flag
+
   void signUp() async {
     final supabase = Supabase.instance.client;
 
@@ -29,59 +31,46 @@ class _SignUp_PageState extends State<SignUp_Page> {
         password.isNotEmpty &&
         confirmPassword.isNotEmpty) {
       if (password == confirmPassword) {
-        final response = await supabase.auth.signUp(email: email, password: password);
+        setState(() {
+          isLoading = true;
+        });
 
-        if (response.user != null) {
-          Get.to(LoginPage());
-        } else if (response.user != null) {
-          // Display error message
-          final errorMessage = "error";
-          showDialog(
-            context: context,
-            builder: (context) => AlertDialog(
-              title: Text('Sign Up Error'),
-              content: Text(errorMessage),
-              actions: [
-                ElevatedButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: Text('OK'),
-                ),
-              ],
-            ),
-          );
+        try {
+          final response =
+          await supabase.auth.signUp(email: email, password: password);
+
+          setState(() {
+            isLoading = false;
+          });
+
+          if (response.user != null) {
+            Get.to(LoginPage());
+          } else {
+            showSnackbar('خطا در ثبت نام');
+          }
+        } catch (error) {
+          showSnackbar(error.toString());
+          setState(() {
+            isLoading = false;
+          });
         }
       } else {
-        // Passwords do not match
-        showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: Text('Sign Up Error'),
-            content: Text('Passwords do not match'),
-            actions: [
-              ElevatedButton(
-                onPressed: () => Navigator.pop(context),
-                child: Text('OK'),
-              ),
-            ],
-          ),
-        );
+        showSnackbar('رمز عبور و تکرار آن برابر نیستند');
       }
     } else {
-      // Missing fields
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: Text('Sign Up Error'),
-          content: Text('Please fill in all fields'),
-          actions: [
-            ElevatedButton(
-              onPressed: () => Navigator.pop(context),
-              child: Text('OK'),
-            ),
-          ],
-        ),
-      );
+      showSnackbar('لطفاً تمام فیلدها را پر کنید');
     }
+  }
+
+  void showSnackbar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          message,
+          style: TextStyle(fontSize: 16.0),
+        ),
+      ),
+    );
   }
 
   @override
@@ -171,7 +160,8 @@ class _SignUp_PageState extends State<SignUp_Page> {
                       child: ElevatedButton(
                         style: ButtonStyle(
                           backgroundColor:
-                          MaterialStateProperty.all<Color>(Colors.green),
+                          MaterialStateProperty.all<Color>(
+                              isLoading ? Colors.grey : Colors.green), // Disable button when loading
                           shape:
                           MaterialStateProperty.all<RoundedRectangleBorder>(
                             RoundedRectangleBorder(
@@ -179,8 +169,13 @@ class _SignUp_PageState extends State<SignUp_Page> {
                             ),
                           ),
                         ),
-                        onPressed: signUp,
-                        child: Text(
+                        onPressed: isLoading ? null : signUp, // Disable button when loading
+                        child: isLoading // Show progress indicator or text based on isLoading
+                            ? CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                              Colors.white),
+                        )
+                            : Text(
                           "ثبت نام",
                           style: TextStyle(fontSize: size.width * 0.05),
                         ),

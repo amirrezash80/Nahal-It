@@ -1,7 +1,6 @@
 import 'package:get/get.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:supabase/supabase.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class Product {
   final String content;
@@ -11,12 +10,10 @@ class Product {
   Product({required this.content, required this.imageUrl, required this.title});
 }
 
-class fetchproduct{
+class fetchproduct {
   List<dynamic>? products;
   bool isDataLoaded = false;
-
 }
-
 
 class SearchController {
   bool isFilterd = false;
@@ -46,10 +43,10 @@ class CartController extends GetxController {
 
   void removeFromCart(Product product) {
     var existingProduct = cartItems.firstWhere(
-          (item) => item.product.title == product.title,
-      orElse: () => CartItem(product: Product(content: '', imageUrl: '', title: ''), quantity: 0),
+      (item) => item.product.title == product.title,
+      orElse: () => CartItem(
+          product: Product(content: '', imageUrl: '', title: ''), quantity: 0),
     );
-
 
     if (existingProduct != null) {
       if (existingProduct.quantity > 1) {
@@ -63,15 +60,12 @@ class CartController extends GetxController {
   }
 }
 
-
-
 class CartItem {
   final Product product;
   int quantity;
 
   CartItem({required this.product, required this.quantity});
 }
-
 
 class FavouriteController extends GetxController {
   final cartItems = <Product>[].obs;
@@ -91,7 +85,6 @@ class FavouriteController extends GetxController {
   }
 }
 
-
 class NavigationController extends GetxController {
   final selectedIndex = 2.obs;
 
@@ -103,7 +96,13 @@ class NavigationController extends GetxController {
 class ProfileController extends GetxController {
   var imagePath = ''.obs;
   var name = ''.obs;
-  var isEditingName = false.obs; // Added isEditingName getter
+  var phoneNumber = ''.obs;
+  var refundMethod = ''.obs;
+  var nationalCode = ''.obs;
+  var landlineNumber = ''.obs;
+  var email = ''.obs;
+  var password = ''.obs;
+  var isEditingName = false.obs;
 
   void setImage(String path) {
     imagePath.value = path;
@@ -113,12 +112,30 @@ class ProfileController extends GetxController {
     name.value = newName;
   }
 
-  void toggleNameEditing() {
-    isEditingName.value = !isEditingName.value;
+  void setPhone(String newName) {
+    phoneNumber.value = newName;
+  }
+
+  void setrefund(String newName) {
+    refundMethod.value = newName;
+  }
+
+  void setNationalcode(String newName) {
+    nationalCode.value = newName;
+  }
+
+  void setNumber(String newName) {
+    landlineNumber.value = newName;
+  }
+
+  void setEmail(String newName) {
+    email.value = newName;
+  }
+
+  void setPassword(String newName) {
+    password.value = newName;
   }
 }
-
-
 
 class AuthController extends GetxController {
   late final SupabaseClient supabaseClient;
@@ -132,8 +149,8 @@ class AuthController extends GetxController {
     super.onInit();
   }
 
-
-  Future<AuthResponse> signIn({required String email, required String password}) async {
+  Future<AuthResponse> signIn(
+      {required String email, required String password}) async {
     final response = await supabaseClient.auth.signInWithPassword(
       email: email,
       password: password,
@@ -146,7 +163,8 @@ class AuthController extends GetxController {
     return response;
   }
 
-  Future<AuthResponse> signUp({required String email, required String password}) async {
+  Future<AuthResponse> signUp(
+      {required String email, required String password}) async {
     final response = await supabaseClient.auth.signUp(
       email: email,
       password: password,
@@ -165,4 +183,13 @@ class AuthController extends GetxController {
   }
 }
 
+class mySliderContent {
+  List<String> title = List<String>.filled(5, 'loading');
+  List<String> imgList = List<String>.filled(5,
+      'https://i.gifer.com/origin/34/34338d26023e5515f6cc8969aa027bca_w200.gif');
+  List<String> content = List<String>.filled(5, 'loading');
+}
 
+class user {
+  String username = 'guest';
+}
